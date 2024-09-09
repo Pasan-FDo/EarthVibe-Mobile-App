@@ -1,80 +1,59 @@
-import { View, Text, Image, Animated as RNAnimated } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, Image, Animated } from 'react-native';
 import * as Progress from 'react-native-progress';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 
 const Index = () => {
+  const router = useRouter();
   const [progress, setProgress] = useState(0);
-  const scale = useSharedValue(1);
-  const opacityText = useSharedValue(1);
-  const opacityProgress = useSharedValue(1);
-  const navigation = useNavigation();
+  const progressAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prevProgress) => {
-        if (prevProgress < 1) {
-          return prevProgress + 0.02;
-        }
-        return prevProgress;
-      });
-    }, 100);
+    // Start the animation to fill the progress bar
+    Animated.timing(progressAnim, {
+      toValue: 1,
+      duration: 5000, // 5 seconds for the progress bar to fill
+      useNativeDriver: false, // Progress animation cannot use native driver
+    }).start();
 
-    if (progress >= 1) {
-      scale.value = withTiming(3, { duration: 1000 }, () => {
-        // Animate text and progress bar opacity to vanish
-        opacityText.value = withTiming(0, { duration: 500 });
-        opacityProgress.value = withTiming(0, { duration: 500 }, () => {
-          // Navigate after animations are complete
-        //   navigation.navigate('Home');  // Replace 'Home' with your target route name
-        });
-      });
-    }
+    // Update progress state based on animated value
+    progressAnim.addListener(({ value }) => {
+      setProgress(value);
+    });
 
-    return () => clearInterval(interval);
-    }, [progress]);
+    // Navigate to the home page after 5 seconds
+    const timer = setTimeout(() => {
+      router.replace('login');
+    }, 5000);
 
-    const percentage = Math.round(progress * 100);
-
-    const animatedImageStyle = useAnimatedStyle(() => ({
-        transform: [{ scale: scale.value }],
-    }));
-
-    const animatedTextStyle = useAnimatedStyle(() => ({
-        opacity: opacityText.value,
-        transform: [{ translateY: withTiming(50, { duration: 500 }) }]
-    }));
-
-    const animatedProgressStyle = useAnimatedStyle(() => ({
-        opacity: opacityProgress.value
-    }));
+    // Cleanup the timer and listener if the component is unmounted
+    return () => {
+      clearTimeout(timer);
+      progressAnim.removeAllListeners();
+    };
+  }, [router, progressAnim]);
 
   return (
     <View className="flex-1 bg-[#1D78C3] justify-center items-center">
-      <View>
-        <Animated.View style={animatedImageStyle}>
-          <Image source={require('../assets/images/EarthVibeLogo.png')} />
-        </Animated.View>
+      <View className="mb-4">
+        <Image source={require('../assets/images/EarthVibeLogo.png')} />
+      </View>
 
-        <Animated.View style={animatedTextStyle}>
-          <Text className="text-white text-center font-bold text-4xl">
-            Earth-Vibe
-          </Text>
-        </Animated.View>
+      <View className="mb-4">
+        <Text className="text-white text-center font-bold text-4xl">
+          Earth-Vibe
+        </Text>
+      </View>
 
-        <View className="mt-">
-        <Animated.View style={animatedProgressStyle} className="flex items-center justify-center mt-16">
-          <Progress.Circle
-            size={80}
-            progress={progress}
-            color={'white'}
-            showsText={true}
-            formatText={() => `${percentage}%`}
-            textStyle={{ color: 'white', fontSize: 18 }}
-          />
-        </Animated.View>
-        </View>
+      <View className="flex items-center justify-center mt-16">
+        <Progress.Circle
+          size={80}
+          progress={progress} // Animated progress value
+          color={'white'}
+          showsText={true}
+          formatText={() => `${Math.round(progress * 100)}%`} // Display percentage
+          textStyle={{ color: 'white', fontSize: 18 }}
+        />
       </View>
     </View>
   );
