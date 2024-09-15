@@ -11,6 +11,11 @@ const Home = () => {
       <Button onPress={()=>router.push('profile')} title='profile'/>
       <Button onPress={()=>router.push('greenInvestment')} title='greenInvestment'/>
       <Button onPress={()=>router.push('investmentForm')} title='investmentForm'/>
+      <Button onPress={()=>router.push('whether')} title='whether'/>
+      <Button onPress={()=>router.push('climateNetwork')} title='climateNetwork'/>
+      <Button onPress={()=>router.push('disasterNewsList')} title='disasterNewsList'/> 
+      <Button onPress={()=>router.push('disasterAllert')} title='disasterAllert'/> 
+      
       
     </View>
   )

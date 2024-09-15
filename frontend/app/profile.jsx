@@ -3,6 +3,7 @@ import React from 'react';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useRouter } from 'expo-router';
+import NavigationBar from '../components/NavigationBar';
 
 const Profile = () => {
     const router = useRouter();
@@ -78,12 +79,15 @@ const Profile = () => {
                 </View>
             </ScrollView>
 
-            <View className="absolute bottom-0 left-0 right-0 px-6 py-4 bg-white">
+            <View className="absolute bottom-20 left-0 right-0 px-6 py-4 bg-white">
                 <TouchableOpacity>
                     <View className="bg-blue-500 flex justify-center items-center h-12 rounded-[10px]">
                         <Text className="text-xl text-white">Save</Text>
                     </View>
                 </TouchableOpacity>
+            </View>
+            <View className="absolute bottom-0 left-0 right-0">
+                <NavigationBar/>
             </View>
         </SafeAreaView>
     );
