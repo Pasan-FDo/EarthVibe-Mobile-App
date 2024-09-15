@@ -9,6 +9,9 @@ const Home = () => {
       <Button onPress={()=>router.push('login')} title='login'/>
       <Button onPress={()=>router.push('register')} title='reg'/>
       <Button onPress={()=>router.push('profile')} title='profile'/>
+      <Button onPress={()=>router.push('greenInvestment')} title='greenInvestment'/>
+      <Button onPress={()=>router.push('investmentForm')} title='investmentForm'/>
+      
     </View>
   )
 }
