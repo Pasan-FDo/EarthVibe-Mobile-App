@@ -15,6 +15,15 @@ const Home = () => {
       <Button onPress={()=>router.push('climateNetwork')} title='climateNetwork'/>
       <Button onPress={()=>router.push('disasterNewsList')} title='disasterNewsList'/> 
       <Button onPress={()=>router.push('disasterAllert')} title='disasterAllert'/> 
+      <Button onPress={()=>router.push('event')} title='event'/> 
+      <Button onPress={()=>router.push('eventForm')} title='eventForm'/> 
+      <Button onPress={()=>router.push('eventPost')} title='eventPost'/> 
+      <Button onPress={()=>router.push('tipsForm')} title='tipsForm'/> 
+      <Button onPress={()=>router.push('tipsList')} title='tipsList'/> 
+      
+      
+      
+      
       
       
     </View>
