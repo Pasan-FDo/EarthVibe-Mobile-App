@@ -1,100 +1,220 @@
-import { View, Text, SafeAreaView, TouchableOpacity, TextInput, ScrollView, StatusBar } from 'react-native';
-import React, { useState } from 'react';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+  StatusBar,
+  Dimensions,
+} from "react-native";
+import React, { useState } from "react";
+import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-const SignUpScreen = ({navigation}) => {
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    return (
-        <SafeAreaView className="flex-1 bg-[#1D78C3]">
-           
-            <ScrollView>
-                <View className="bg-[#1D78C3]">
-                    <View className="pl-6">
-                        <TouchableOpacity className="mt-12" onPress={()=>navigation.navigate('LoginScreen')}>
-                            <FontAwesome6 name="arrow-left" size={20} color="white" />
-                        </TouchableOpacity>
-                        <Text className="text-3xl text-white font-bold mt-8">Register</Text>
-                        <View className="flex-row justify-start items-center">
-                        <Text className="text-white pt-4 mb-4 mr-2">Already have an account?</Text>
-                        <TouchableOpacity onPress={()=>navigation.navigate('LoginScreen')}><Text className="underline text-white">Login</Text></TouchableOpacity>
-                        </View>
-                       </View>
-                </View>
-                <View className="bg-white">
-                    <View className="mr-6 ml-6 mt-5">
-                        <View>
-                            <Text className="text-gray-500 mb-2">Full Name</Text>
-                            <TextInput
-                                className="bg-gray-100 rounded-[6px] pl-4 pt-2 pb-2 w-full border border-gray-300 focus:bg-white focus:border-[#1D78C3] focus:ring-2 focus:ring-[#1D78C3] outline-none text-gray-800 mb-4"
-                                placeholderTextColor="#a1a1aa"
-                            />
-                        </View>
+const { width, height } = Dimensions.get("window");
 
-                        <View>
-                            <Text className="text-gray-500 mb-2">E-mail</Text>
-                            <TextInput
-                                className="bg-gray-100 rounded-[6px] pl-4 pt-2 pb-2 w-full border border-gray-300 focus:bg-white focus:border-[#1D78C3] focus:ring-2 focus:ring-[#1D78C3] outline-none text-gray-800 mb-4"
-                                placeholderTextColor="#a1a1aa"
-                            />
-                        </View>
+const SignUpScreen = ({ navigation }) => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
-                        <View>
-                            <Text className="text-gray-400 mb-2">Mobile Number</Text>
-                            <TextInput
-                                className="bg-gray-100 rounded-[6px] pl-4 pt-2 pb-2 w-full border border-gray-300 focus:bg-white focus:border-[#1D78C3] focus:ring-2 focus:ring-[#1D78C3] outline-none text-gray-800 mb-4"
-                                placeholderTextColor="#a1a1aa"
-                                keyboardType='numeric'
-                            />
-                        </View>
-                        <View className="flex-row">
-                            <View className="flex-1 mr-2">
-                                <Text className="text-gray-400 mb-2">Mobile Number</Text>
-                                <TextInput
-                                    className="bg-gray-100 rounded-[6px] pl-4 pt-2 pb-2 w-full border border-gray-300 focus:bg-white focus:border-[#1D78C3] focus:ring-2 focus:ring-[#1D78C3] outline-none text-gray-800 mb-4"
-                                    placeholderTextColor="#a1a1aa"
-                                />
-                            </View>
-                            <View className="flex-1 ml-2">
-                                <Text className="text-gray-400 mb-2">District</Text>
-                                <TextInput
-                                    className="bg-gray-100 rounded-[6px] pl-4 pt-2 pb-2 w-full border border-gray-300 focus:bg-white focus:border-[#1D78C3] focus:ring-2 focus:ring-[#1D78C3] outline-none text-gray-800 mb-4"
-                                    placeholderTextColor="#a1a1aa"
-                                />
-                            </View>
-                        </View>
-                        <View>
-                            <Text className="text-gray-400 mb-2">Set Password</Text>
-                            <View className="relative">
-                                <TextInput
-                                    className="bg-gray-100 rounded-[6px] pl-4 pt-2 pb-2 w-full border border-gray-300 focus:bg-white focus:border-[#1D78C3] focus:ring-2 focus:ring-[#1D78C3] outline-none text-gray-800 mb-4"
-                                    placeholderTextColor="#a1a1aa"
-                                    secureTextEntry={!passwordVisible}
-                                />
-                                <TouchableOpacity
-                                    className="absolute right-3 top-3"
-                                    onPress={() => setPasswordVisible(!passwordVisible)}
-                                >
-                                    <FontAwesome
-                                        name={passwordVisible ? "eye-slash" : "eye"}
-                                        size={20}
-                                        color="#a1a1aa"
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                        <TouchableOpacity className="ml-6 mr-6 mt-10">
-                            <View className="bg-blue-500 flex justify-center items-center h-12 rounded-[10px]">
-                                <Text className="text-xl text-white">Register</Text>
-                            </View>
-                        </TouchableOpacity>
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#1D78C3" }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={{ backgroundColor: "#1D78C3" }}>
+          <View style={{ paddingLeft: 16 }}>
+            <TouchableOpacity
+              style={{ marginTop: 20 }}
+              onPress={() => navigation.navigate("LoginScreen")}
+            >
+              <FontAwesome6 name="arrow-left" size={20} color="white" />
+            </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 28,
+                color: "white",
+                fontWeight: "bold",
+                marginTop: 12,
+              }}
+            >
+              Register
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  paddingTop: 16,
+                  marginBottom: 16,
+                  marginRight: 8,
+                }}
+              >
+                Already have an account?
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("LoginScreen")}
+              >
+                <Text
+                  style={{ textDecorationLine: "underline", color: "white" }}
+                >
+                  Login
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
 
+        <View
+          style={{
+            backgroundColor: "white",
+            paddingHorizontal: 16,
+            paddingTop: 20,
+          }}
+        >
+          <View>
+            <Text style={{ color: "#6b7280", marginBottom: 8 }}>Full Name</Text>
+            <TextInput
+              style={{
+                backgroundColor: "#f3f4f6",
+                borderRadius: 6,
+                padding: 10,
+                borderWidth: 1,
+                borderColor: "#e5e7eb",
+                marginBottom: 16,
+              }}
+              placeholder="Enter your full name"
+              placeholderTextColor="#a1a1aa"
+            />
+          </View>
 
-                    </View>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    );
+          <View>
+            <Text style={{ color: "#6b7280", marginBottom: 8 }}>E-mail</Text>
+            <TextInput
+              style={{
+                backgroundColor: "#f3f4f6",
+                borderRadius: 6,
+                padding: 10,
+                borderWidth: 1,
+                borderColor: "#e5e7eb",
+                marginBottom: 16,
+              }}
+              placeholder="Enter your email"
+              placeholderTextColor="#a1a1aa"
+            />
+          </View>
+
+          <View>
+            <Text style={{ color: "#6b7280", marginBottom: 8 }}>
+              Mobile Number
+            </Text>
+            <TextInput
+              style={{
+                backgroundColor: "#f3f4f6",
+                borderRadius: 6,
+                padding: 10,
+                borderWidth: 1,
+                borderColor: "#e5e7eb",
+                marginBottom: 16,
+              }}
+              placeholder="Enter your mobile number"
+              placeholderTextColor="#a1a1aa"
+              keyboardType="numeric"
+            />
+          </View>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <View style={{ flex: 1, marginRight: 8 }}>
+              <Text style={{ color: "#6b7280", marginBottom: 8 }}>
+                Mobile Number
+              </Text>
+              <TextInput
+                style={{
+                  backgroundColor: "#f3f4f6",
+                  borderRadius: 6,
+                  padding: 10,
+                  borderWidth: 1,
+                  borderColor: "#e5e7eb",
+                  marginBottom: 16,
+                }}
+                placeholder="Enter your second number"
+                placeholderTextColor="#a1a1aa"
+              />
+            </View>
+            <View style={{ flex: 1, marginLeft: 8 }}>
+              <Text style={{ color: "#6b7280", marginBottom: 8 }}>
+                District
+              </Text>
+              <TextInput
+                style={{
+                  backgroundColor: "#f3f4f6",
+                  borderRadius: 6,
+                  padding: 10,
+                  borderWidth: 1,
+                  borderColor: "#e5e7eb",
+                  marginBottom: 16,
+                }}
+                placeholder="Enter your district"
+                placeholderTextColor="#a1a1aa"
+              />
+            </View>
+          </View>
+
+          <View>
+            <Text style={{ color: "#6b7280", marginBottom: 8 }}>
+              Set Password
+            </Text>
+            <View style={{ position: "relative" }}>
+              <TextInput
+                style={{
+                  backgroundColor: "#f3f4f6",
+                  borderRadius: 6,
+                  padding: 10,
+                  borderWidth: 1,
+                  borderColor: "#e5e7eb",
+                  marginBottom: 16,
+                }}
+                placeholder="Enter password"
+                placeholderTextColor="#a1a1aa"
+                secureTextEntry={!passwordVisible}
+              />
+              <TouchableOpacity
+                style={{ position: "absolute", right: 16, top: 16 }}
+                onPress={() => setPasswordVisible(!passwordVisible)}
+              >
+                <FontAwesome
+                  name={passwordVisible ? "eye-slash" : "eye"}
+                  size={20}
+                  color="#a1a1aa"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <TouchableOpacity style={{ marginVertical: 16 }}>
+            <View
+              style={{
+                backgroundColor: "#1D78C3",
+                paddingVertical: 14,
+                borderRadius: 10,
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ fontSize: 18, color: "white" }}>Register</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 };
 
 export default SignUpScreen;
