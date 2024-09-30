@@ -1,63 +1,71 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const NavigationBar = () => {
-    const [selected, setSelected] = useState('home'); // Default to 'home'
+    const navigation = useNavigation();
+    const [selected, setSelected] = useState(''); // Default to 'HomeScreen'
 
     const handlePress = (item) => {
         setSelected(item);
+        navigation.navigate(item);
     };
 
     return (
         <View className="flex-row justify-between items-center bg-[#D9D9D9] py-3">
+            {/* Home Screen */}
             <TouchableOpacity onPress={() => handlePress('HomeScreen')}>
                 <View className="flex items-center ml-3">
-                    <Entypo name="home" size={40} color={selected === 'home' ? "#1D78C3" : "#4F4F4F"} />
-                    <Text className={`text-center font-semibold ${selected === 'home' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'}`}>
+                    <Entypo name="home" size={25} color={selected === 'HomeScreen' ? "#1D78C3" : "#4F4F4F"} />
+                    <Text className={`text-center font-semibold ${selected === 'HomeScreen' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'} text-xs`}>
                         HOME
                     </Text>
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity >
+            {/* Climate Screen */}
+            <TouchableOpacity onPress={() => handlePress('ClimateNetworkScreen')}>
                 <View className="flex items-center">
-                    <MaterialCommunityIcons name="weather-partly-lightning" size={40} color={selected === 'climate' ? "#1D78C3" : "#4F4F4F"} />
-                    <Text className={`text-center font-semibold ${selected === 'climate' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'}`}>
+                    <MaterialCommunityIcons name="weather-partly-lightning" size={25} color={selected === 'ClimateScreen' ? "#1D78C3" : "#4F4F4F"} />
+                    <Text className={`text-center font-semibold ${selected === 'ClimateNetworkScreen' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'} text-xs`}>
                         CLIMATE
                     </Text>
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity >
+            {/* Tips Screen */}
+            <TouchableOpacity onPress={() => handlePress('SelectTipsScreen')}>
                 <View className="flex items-center">
-                    <Image source={require("../assets/images/navTips.png")} style={{width: 40, height: 40, tintColor: selected === 'tips' ? "#1D78C3" : "#4F4F4F"}} />
-                    <Text className={`text-center font-semibold ${selected === 'tips' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'}`}>
+                    <MaterialCommunityIcons name="head-lightbulb" size={25} color={selected === 'SelectTipsScreen' ? "#1D78C3" : "#4F4F4F"} />
+                    <Text className={`text-center font-semibold ${selected === 'SelectTipsScreen' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'} text-xs`}>
                         TIPS
                     </Text>
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity >
+            {/* Invests Screen */}
+            <TouchableOpacity onPress={() => handlePress('GreenInvestmentScreen')}>
                 <View className="flex items-center">
-                    <Image source={require("../assets/images/navInvest.png")} style={{width: 40, height: 40, tintColor: selected === 'invests' ? "#1D78C3" : "#4F4F4F"}} />
-                    <Text className={`text-center font-semibold ${selected === 'invests' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'}`}>
+                    <MaterialCommunityIcons name="hand-coin" size={25} color={selected === 'GreenInvestmentScreen' ? "#1D78C3" : "#4F4F4F"} />
+                    <Text className={`text-center font-semibold ${selected === 'GreenInvestmentScreen' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'} text-xs`}>
                         INVESTS
                     </Text>
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity >
+            {/* Eco Screen */}
+            <TouchableOpacity onPress={() => handlePress('EcoScreen')}>
                 <View className="flex items-center pr-3">
-                    <Image source={require("../assets/images/navEco.png")} style={{width: 40, height: 40, tintColor: selected === 'eco' ? "#1D78C3" : "#4F4F4F"}} />
-                    <Text className={`text-center font-semibold ${selected === 'eco' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'}`}>
+                    <MaterialCommunityIcons name="leaf" size={25} color={selected === 'EcoScreen' ? "#1D78C3" : "#4F4F4F"} />
+                    <Text className={`text-center font-semibold ${selected === 'EcoScreen' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'} text-xs`}>
                         ECO
                     </Text>
                 </View>
             </TouchableOpacity>
         </View>
     );
-}
+};
 
 export default NavigationBar;

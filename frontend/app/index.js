@@ -6,6 +6,7 @@ import SplashScreen from "../app/screens/SplashScreen";
 import SignUpScreen from "../app/screens/SignUpScreen";
 import LoginScreen from "../app/screens/LoginScreen";
 import HomeScreen from "../app/screens/HomeScreen";
+import NavigationBar from "../app/components/NavigationBar";
 import ProfileScreen from "../app/screens/profileScreen";
 import EventFormScreen from "../app/screens/earthEvent/EventFormScreen";
 import EventPostScreen from "../app/screens/earthEvent/EventPostScreen";
@@ -21,6 +22,7 @@ import ClimateNetworkScreen from "../app/screens/climateAction/ClimateNetworkScr
 import DisasterAlertScreen from "../app/screens/climateAction/DisasterAlertScreen";
 import DisasterNewsListScreen from "../app/screens/climateAction/DisasterNewsListScreen";
 import WhetherScreen from "../app/screens/climateAction/WhetherScreen";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +60,12 @@ const Index = () => {
           <Stack.Screen
             name="ProfileScreen"
             component={ProfileScreen}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="NavigationBar"
+            component={NavigationBar}
             options={{ headerShown: false }}
           />
 
