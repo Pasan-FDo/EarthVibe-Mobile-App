@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { firebase } from '../config';  // Assuming you have a Firebase config
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore'; // Firestore imports
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -29,7 +30,8 @@ const Login = () => {
 
         querySnapshot.forEach((doc) => {
           
-          userData = doc.data(); 
+          userData = doc.data();
+          AsyncStorage.setItem('UserDetails',userData) 
           console.log(userData); // Get the user data
         });
 
