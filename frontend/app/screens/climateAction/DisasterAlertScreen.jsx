@@ -16,14 +16,14 @@ const DisasterAlertScreen = ({ navigation }) => {
 
     const fetchUserDetails = async () => {
         const district = await AsyncStorage.getItem('District');
-        setUserDistrict(district || '');
+        setUserDistrict(district || ''); // Set user district or empty string
     };
 
     const getLiveLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
             setErrorMsg('Permission to access location was denied');
-            setLoading(false);
+            setLoading(false); // Stop loading if permission denied
             return;
         }
 
@@ -41,36 +41,54 @@ const DisasterAlertScreen = ({ navigation }) => {
         setLoading(false);
     };
 
-    // Fetch all disaster alerts
-    const fetchAllDisasters = async () => {
+    const getLoginDistrict = async () => {
         try {
-            const snapshot = await firebase.firestore().collection('Disaster').get();
-            const allDisasters = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            
-            // Update the state with the retrieved disaster data
-            setDisaster(allDisasters);
-    
-            // Handle the case where no comments are found
-            if (allDisasters.length === 0) {
-                console.warn('No disaster alerts found.');
-                Alert.alert('No Alerts', 'No disaster alerts found.');
+            if (!userDistrict && !Locdistrict) {
+                // console.error('Both user district and location district are not defined.');
+                // Alert.alert('Error', 'Both user district and location district must be defined.');
+                return;
+            }
+
+            let query = firebase.firestore().collection('Disaster');
+            const conditions = [];
+
+            if (userDistrict) {
+                conditions.push(query.where('location', '==', userDistrict));
+            }
+
+            if (Locdistrict) {
+                conditions.push(query.where('location', '==', Locdistrict));
+            }
+
+            let commentsData = [];
+            for (const condition of conditions) {
+                const snapshot = await condition.get();
+                commentsData.push(...snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+            }
+
+            const uniqueComments = Array.from(new Set(commentsData.map(a => a.id)))
+                .map(id => commentsData.find(a => a.id === id));
+
+            setDisaster(uniqueComments);
+
+            if (uniqueComments.length === 0) {
+                // console.warn('No comments found for the specified districts.');
+                Alert.alert('You Safe', 'You are in safe area! ');
             }
         } catch (error) {
-            console.error('Error fetching disaster alerts:', error);
-            Alert.alert('Error', 'Failed to fetch disaster alerts. Please try again.');
+            // console.error('Error fetching comments:', error);
+            Alert.alert('Error', 'Failed to fetch comments. Please try again.');
         }
     };
 
     useEffect(() => {
-        getLiveLocation(); // Fetch live location
-        fetchUserDetails(); // Fetch user details
+        getLiveLocation();
+        fetchUserDetails();
     }, []);
 
     useEffect(() => {
-        fetchAllDisasters(); // Fetch all disaster alerts when the component mounts
-    }, []);
-
-    console.log(Locdistrict, userDistrict);
+        getLoginDistrict();
+    }, [userDistrict, Locdistrict]);
 
     return (
         <SafeAreaView className="flex-1">
@@ -88,16 +106,21 @@ const DisasterAlertScreen = ({ navigation }) => {
                 </View>
 
                 <View className="flex px-6 py-4">
-                    {disaster.map((item) => (
-                        <DisasterAllertCard key={item.id} data={item} /> // Render DisasterAllertCard for each disaster alert
-                    ))}
+                    {/* Map over the disaster array and pass each item to the DisasterAllertCard */}
+                    {disaster.length > 0 ? (
+                        disaster.map((item) => (
+                            <DisasterAllertCard key={item.id} data={item} /> // Pass individual data to DisasterAllertCard
+                        ))
+                    ) : (
+                        <Text>No Disaster Alerts found for your location.</Text>
+                    )}
                 </View>
             </ScrollView>
             <View className="absolute bottom-0 left-0 right-0">
-                <NavigationBar />
+                <NavigationBar navigation={navigation}/>
             </View>
         </SafeAreaView>
     );
-}
+};
 
 export default DisasterAlertScreen;

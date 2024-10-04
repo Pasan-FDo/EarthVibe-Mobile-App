@@ -34,6 +34,7 @@ const Login = ({navigation}) => {
           // console.log('District',Asyn);
           await AsyncStorage.setItem('UserName',userData.fullName);
           await AsyncStorage.setItem('District',userData.district);
+          await AsyncStorage.setItem('UserID',userData.id);
           console.log(userData.fullName);
           
           

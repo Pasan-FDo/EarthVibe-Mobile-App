@@ -3,7 +3,7 @@ import React from 'react';
 import GreenInvetmentCard from '../../components/GreenInvetmentCard';
 import NavigationBar from '../../components/NavigationBar';
 
-const GreenInvestmentScreen = () => {
+const GreenInvestmentScreen = ({navigation}) => {
     const DataArray = [
         {
             _id:"1",
@@ -63,7 +63,7 @@ const GreenInvestmentScreen = () => {
                 </View>
             </ScrollView>
             <View className="absolute bottom-0 left-0 right-0">
-                <NavigationBar/>
+                <NavigationBar navigation={navigation}/>
             </View>
         </SafeAreaView>
     );

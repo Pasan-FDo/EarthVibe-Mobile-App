@@ -3,19 +3,20 @@ import React, { useState } from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const NavigationBar = () => {
+const NavigationBar = ({navigation}) => {
     const [selected, setSelected] = useState('home'); // Default to 'home'
 
     const handlePress = (item) => {
         setSelected(item);
+        navigation.navigate(item)
     };
 
     return (
         <View className="flex-row justify-between items-center bg-[#D9D9D9] py-3">
-            <TouchableOpacity onPress={() => handlePress('HomeScreen')}>
+            <TouchableOpacity onPress={() => handlePress('ClimateNetworkScreen')}>
                 <View className="flex items-center ml-3">
-                    <Entypo name="home" size={40} color={selected === 'home' ? "#1D78C3" : "#4F4F4F"} />
-                    <Text className={`text-center font-semibold ${selected === 'home' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'}`}>
+                    <Entypo name="home" size={40} color={selected === 'ClimateNetworkScreen' ? "#1D78C3" : "#4F4F4F"} />
+                    <Text className={`text-center font-semibold ${selected === 'ClimateNetworkScreen' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'}`}>
                         HOME
                     </Text>
                 </View>
@@ -30,10 +31,10 @@ const NavigationBar = () => {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => handlePress('EventScreen')}>
                 <View className="flex items-center">
-                    <Image source={require("../assets/images/navTips.png")} style={{width: 40, height: 40, tintColor: selected === 'tips' ? "#1D78C3" : "#4F4F4F"}} />
-                    <Text className={`text-center font-semibold ${selected === 'tips' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'}`}>
+                    <Image source={require("../assets/images/navTips.png")} style={{width: 40, height: 40, tintColor: selected === 'EventScreen' ? "#1D78C3" : "#4F4F4F"}} />
+                    <Text className={`text-center font-semibold ${selected === 'EventScreen' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'}`}>
                         TIPS
                     </Text>
                 </View>

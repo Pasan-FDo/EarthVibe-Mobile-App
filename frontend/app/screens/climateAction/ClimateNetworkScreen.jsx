@@ -46,7 +46,7 @@ const ClimateNetworkScreen = ({ navigation }) => {
                 </View>
             </ScrollView>
             <View className="absolute bottom-0 left-0 right-0">
-                <NavigationBar />
+                <NavigationBar navigation={navigation}/>
             </View>
         </SafeAreaView>
     );
