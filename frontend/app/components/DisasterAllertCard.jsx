@@ -15,7 +15,7 @@ const DisasterAlertCard = ({ data }) => {
                 <View className="flex justify-center items-center">
                     <Image
                         className="w-full h-40 rounded-[10px]"
-                        source={data.image}
+                        source={{uri:data.images[2]}}
                         resizeMode="cover"
                     />
                 </View>
@@ -25,7 +25,7 @@ const DisasterAlertCard = ({ data }) => {
                         {data.title}
                     </Text>
                     <Text className="font-semibold text-gray-500 text-sm">
-                        20/02/2024
+                        {data.date}
                     </Text>
                 </View>
 
@@ -63,7 +63,7 @@ const DisasterAlertCard = ({ data }) => {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => handleDial(data.agentContact)}>
+                    <TouchableOpacity onPress={() => handleDial(data.emergencyContact)}>
                         <View className="flex-row items-center justify-center bg-white rounded-[10px] w-32 mx-4 py-1">
                             <MaterialIcons name="support-agent" size={25} color="#545454" />
                             <Text className="text-[#545454] text-lg font-semibold ml-2">Agent</Text>

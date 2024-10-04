@@ -23,6 +23,7 @@ import DisasterNewsListScreen from "../app/screens/climateAction/DisasterNewsLis
 import WhetherScreen from "../app/screens/climateAction/WhetherScreen";
 import Nav from "./screens/Nav";
 import DisasterForm from "./screens/climateAction/DisasterForm";
+import UserLocation from "./screens/UserLocation";
 
 const Stack = createNativeStackNavigator();
 
@@ -143,6 +144,11 @@ const Index = () => {
           <Stack.Screen
             name="DisasterForm"
             component={DisasterForm}
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen
+            name="UserLocation"
+            component={UserLocation}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
