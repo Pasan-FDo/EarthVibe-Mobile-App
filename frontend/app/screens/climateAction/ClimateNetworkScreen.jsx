@@ -17,7 +17,6 @@ const ClimateNetworkScreen = ({ navigation }) => {
                     _id: doc.id, // Assign document ID as _id
                     ...doc.data(), // Spread document data
                 }));
-                console.log(fetchedData);
                 setDataArray(fetchedData);
             } catch (error) {
                 Alert.alert('Error', 'Could not fetch disaster data');

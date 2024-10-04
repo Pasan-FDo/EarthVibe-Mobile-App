@@ -32,13 +32,17 @@ const Login = ({navigation}) => {
           // await AsyncStorage.setItem('User',userData);
           console.log(userData); // Get the user data
           // console.log('District',Asyn);
+          await AsyncStorage.setItem('UserName',userData.fullName);
+          await AsyncStorage.setItem('District',userData.district);
+          console.log(userData.fullName);
+          
           
         });
 
         // Compare the stored password with the entered password
         if (userData && userData.password === password) {
           alert('Login successful!');
-          // Navigate to the home page or dashboard
+          
           navigation.navigate('ClimateNetworkScreen');
         } else {
           alert('Incorrect password!');

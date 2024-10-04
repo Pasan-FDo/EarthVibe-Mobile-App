@@ -16,8 +16,6 @@ const ClimateNetworkCard = ({ data }) => {
         setModalVisible(!isModalVisible);
     };
 
-    console.log(data.images);
-
     return (
         <View className="shadow-lg shadow-black bg-white rounded-[15px] p-2 mb-6">
             <View className="bg-[#FFFFFF] rounded-[10px] p-4">
@@ -62,7 +60,7 @@ const ClimateNetworkCard = ({ data }) => {
                 style={{ margin: 5, justifyContent: 'center', alignItems: 'center' }}
             >
                 <View className="bg-white p-4 rounded-[10px] w-[90%]">
-                    <ClimateNetworkCommentCard toggleModal={toggleModal} />
+                    <ClimateNetworkCommentCard toggleModal={toggleModal} post={data._id}/>
                 </View>
             </Modal>
         </View>
