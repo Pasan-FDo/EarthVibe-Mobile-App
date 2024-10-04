@@ -11,6 +11,8 @@ const Nav = ({navigation}) => {
       <Button onPress={()=>navigation.navigate('DisasterNewsListScreen')} title='DisasterNewsListScreen'/>
       <Button onPress={()=>navigation.navigate('DisasterAlertScreen')} title='DisasterAlertScreen'/>
       <Button onPress={()=>navigation.navigate('UserLocation')} title='Location'/>
+      <Button onPress={()=>navigation.navigate('GreenInvestmentScreen')} title='GreenInvestmentScreen'/>
+      
       
     </View>
   )

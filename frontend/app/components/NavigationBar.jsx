@@ -41,9 +41,9 @@ const NavigationBar = ({navigation}) => {
             </TouchableOpacity>
 
             <TouchableOpacity >
-                <View className="flex items-center">
-                    <Image source={require("../assets/images/navInvest.png")} style={{width: 40, height: 40, tintColor: selected === 'invests' ? "#1D78C3" : "#4F4F4F"}} />
-                    <Text className={`text-center font-semibold ${selected === 'invests' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'}`}>
+                <View className="flex items-center" onPress={() => handlePress('GreenInvestmentScreen')}>
+                    <Image source={require("../assets/images/navInvest.png")} style={{width: 40, height: 40, tintColor: selected === 'GreenInvestmentScreen' ? "#1D78C3" : "#4F4F4F"}} />
+                    <Text className={`text-center font-semibold ${selected === 'GreenInvestmentScreen' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'}`}>
                         INVESTS
                     </Text>
                 </View>

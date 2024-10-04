@@ -1,41 +1,39 @@
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'expo-router';
+import { firebase } from '../../../config';
 import GreenInvetmentCard from '../../components/GreenInvetmentCard';
 import NavigationBar from '../../components/NavigationBar';
 
-const GreenInvestmentScreen = ({navigation}) => {
-    const DataArray = [
-        {
-            _id:"1",
-            image: require('../../assets/images/greenInvestment/greenInvest.png'),
-            title: "Solar Energy",
-            description: "Energy from the sun powers homes, buildings, and a variety of other items from lights to radios. Focus your attention on companies that make ..."
-        },
-        {
-            _id:"2",
-            image: require('../../assets/images/greenInvestment/greenInvest.png'),
-            title: "Wind Energy",
-            description: "Wind energy is a growing source of renewable energy. Explore companies that manufacture wind turbines and develop wind farms."
-        },
-        {
-            _id:"3",
-            image: require('../../assets/images/greenInvestment/greenInvest.png'),
-            title: "Hydro Power",
-            description: "Water is used to generate power in many parts of the world. Learn more about companies that use water sources to generate electricity."
-        },
-        {
-            _id:"4",
-            image: require('../../assets/images/greenInvestment/greenInvest.png'),
-            title: "Geothermal Energy",
-            description: "Geothermal energy comes from the earth's internal heat. It is a renewable resource that companies are investing in for a sustainable future."
-        },
-        {
-            _id:"5",
-            image: require('../../assets/images/greenInvestment/greenInvest.png'),
-            title: "BioEnergy",
-            description: "BioEnergy refers to the use of biomass to generate energy. Companies are focusing on using organic materials like wood and crops for fuel."
-        },
-    ];
+
+const GreenInvestment = ({navigation}) => {
+    const [investments, setInvestments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const router = useRouter();
+
+    // Fetching data from Firestore
+    const fetchData = async () => {
+        try {
+            const truckRef = firebase.firestore().collection('GreenInvestment');
+            const snapshot = await truckRef.get();
+            const fetchedData = snapshot.docs.map(doc => ({
+                _id: doc.id, // Assign document ID as _id
+                ...doc.data(), // Spread document data
+            }));
+            console.log(fetchedData);
+            setInvestments(fetchedData);
+
+        } catch (error) {
+            console.error('Error fetching GreenInvestment data: ', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // useEffect to fetch data when component mounts
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <SafeAreaView className="flex-1">
@@ -50,16 +48,22 @@ const GreenInvestmentScreen = ({navigation}) => {
                         />
                     </View>
                 </View>
+
                 <View className="mt-8 px-4">
-                {DataArray.map((item) => (
-                        <TouchableOpacity
+                    {/* Show loading spinner while data is being fetched */}
+                    {loading ? (
+                        <ActivityIndicator size="large" color="#1D78C3" />
+                    ) : (
+                        investments.map((item) => (
+                            <TouchableOpacity
                             key={item._id}
-                            onPress={()=> NavigationBar.navigate('SelectGreenInvestmentScreen')}
-                            // onPress={() => router.push({ pathname: `/selectGreenInvestment`, params: item})}
+                            onPress={() => navigation.navigate('SelectGreenInvestmentScreen', { _id: item._id })}  // Pass the _id to the next screen
                         >
                             <GreenInvetmentCard data={item} />
                         </TouchableOpacity>
-                    ))}
+                        
+                        ))
+                    )}
                 </View>
             </ScrollView>
             <View className="absolute bottom-0 left-0 right-0">
@@ -69,4 +73,4 @@ const GreenInvestmentScreen = ({navigation}) => {
     );
 };
 
-export default GreenInvestmentScreen;
+export default GreenInvestment;

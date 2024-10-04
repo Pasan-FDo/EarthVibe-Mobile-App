@@ -31,7 +31,7 @@ const ClimateNetworkScreen = ({ navigation }) => {
             <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
                 <View className="bg-[#1D78C3]">
                     <View className="flex-row justify-between items-center px-6 py-4">
-                        <Text className="text-3xl text-center ml-36 text-white font-bold">Home</Text>
+                        <TouchableOpacity onPress={()=>navigation.navigate('Nav')}><Text className="text-3xl text-center ml-36 text-white font-bold">Home</Text></TouchableOpacity>
                         <Image
                             source={require('../../assets/images/profile.png')}
                             className="w-12 h-12 rounded-full"

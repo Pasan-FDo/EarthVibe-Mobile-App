@@ -87,9 +87,9 @@ const SplashScreen = ({ navigation }) => {
 
   useEffect(() => {
     const loadData = async () => {
-      await fetchUserDetails(); // Fetch user district
-      await getLiveLocation();  // Get location-based district
-      await getLoginDistrict(); // Fetch disaster data based on districts
+        fetchUserDetails(); // Fetch user district
+       getLiveLocation();  // Get location-based district
+       getLoginDistrict(); // Fetch disaster data based on districts
     };
 
     loadData();
