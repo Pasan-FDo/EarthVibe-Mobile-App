@@ -1,46 +1,30 @@
 import { View, Text, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavigationBar from '../../components/NavigationBar';
 import ClimateNewsListCard from '../../components/ClimateNewsListCard';
+import { firebase } from '../../../config'; // Adjust the import path according to your project structure
+
 
 const DisasterNewsListScreen = ({navigation}) => {
-    const DataArray = [
-        {
-            _id: "1",
-            image: require('../../assets/images/greenInvestment/greenInvest.png'),
-            title: "Flooding",
-            location: "Kelani River Basin",
-            description: "Heavy rainfall has caused severe flooding in the Kelani River basin, displacing thousands and damaging homes and infrastructure."
-        },
-        {
-            _id: "2",
-            image: require('../../assets/images/greenInvestment/greenInvest.png'),
-            title: "Cyclone",
-            location: "Eastern Coastline",
-            description: "A tropical cyclone hit the eastern coastline, bringing destructive winds and heavy rainfall, causing widespread devastation to communities."
-        },
-        {
-            _id: "3",
-            image: require('../../assets/images/greenInvestment/greenInvest.png'),
-            title: "Wildfire",
-            location: "Knuckles Mountain Range",
-            description: "Prolonged drought has led to wildfires spreading through the Knuckles Mountain Range, threatening wildlife and ecosystems."
-        },
-        {
-            _id: "4",
-            image: require('../../assets/images/greenInvestment/greenInvest.png'),
-            title: "Landslide",
-            location: "Badulla District",
-            description: "Continuous heavy rains triggered landslides in the Badulla district, burying homes and leading to numerous casualties and displaced residents."
-        },
-        {
-            _id: "5",
-            image: require('../../assets/images/greenInvestment/greenInvest.png'),
-            title: "Drought",
-            location: "Northern Province",
-            description: "A severe drought has hit the Northern Province, leading to water shortages, crop failure, and a humanitarian crisis in affected areas."
-        }
-    ];
+    const [dataArray, setDataArray] = useState([]);
+
+    useEffect(() => {
+        const fetchDisasters = async () => {
+            try {
+                const responce = firebase.firestore().collection('Disaster');
+                const snapshot = await responce.get();
+                const fetchedData = snapshot.docs.map(doc => ({
+                    _id: doc.id, // Assign document ID as _id
+                    ...doc.data(), // Spread document data
+                }));
+                setDataArray(fetchedData);
+            } catch (error) {
+                Alert.alert('Error', 'Could not fetch disaster data');
+            }
+        };
+
+        fetchDisasters();
+    }, []);
 
     return (
         <SafeAreaView className="flex-1">
@@ -51,8 +35,8 @@ const DisasterNewsListScreen = ({navigation}) => {
                     </View>
                 </View>
                 <View className="mt-8 px-4">
-                    {DataArray.map((item) => (
-                        <ClimateNewsListCard key={item._id} data={item} />
+                    {dataArray.map((item) => (
+                        <ClimateNewsListCard key={item._id} data={item} navigation={navigation} />
                     ))}
                 </View>
             </ScrollView>
