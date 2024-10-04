@@ -21,6 +21,8 @@ import ClimateNetworkScreen from "../app/screens/climateAction/ClimateNetworkScr
 import DisasterAlertScreen from "../app/screens/climateAction/DisasterAlertScreen";
 import DisasterNewsListScreen from "../app/screens/climateAction/DisasterNewsListScreen";
 import WhetherScreen from "../app/screens/climateAction/WhetherScreen";
+import Nav from "./screens/Nav";
+import DisasterForm from "./screens/climateAction/DisasterForm";
 
 const Stack = createNativeStackNavigator();
 
@@ -131,6 +133,16 @@ const Index = () => {
           <Stack.Screen
             name="WhetherScreen"
             component={WhetherScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Nav"
+            component={Nav}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DisasterForm"
+            component={DisasterForm}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

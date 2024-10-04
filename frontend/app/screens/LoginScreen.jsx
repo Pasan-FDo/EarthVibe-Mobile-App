@@ -39,7 +39,7 @@ const Login = ({navigation}) => {
         if (userData && userData.password === password) {
           alert('Login successful!');
           // Navigate to the home page or dashboard
-          navigation.navigate("GreenInvestmentScreen")
+          navigation.navigate('ClimateNetworkScreen');
         } else {
           alert('Incorrect password!');
         }

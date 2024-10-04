@@ -22,7 +22,7 @@ const SplashScreen = ({navigation}) => {
 
     // Navigate to the home page after 5 seconds
     const timer = setTimeout(() => {
-     navigation.navigate('LoginScreen');
+     navigation.navigate('Nav');
     }, 5000);
 
     // Cleanup the timer and listener if the component is unmounted
