@@ -73,7 +73,7 @@ function LoginScreen({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.navigate('HomeScreen')}>
               <View style={{ backgroundColor: '#1D78C3', justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 10 }}>
                 <Text style={{ color: 'white', fontSize: 18 }}>Log In</Text>
               </View>

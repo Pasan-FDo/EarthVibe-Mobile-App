@@ -22,6 +22,8 @@ import ClimateNetworkScreen from "../app/screens/climateAction/ClimateNetworkScr
 import DisasterAlertScreen from "../app/screens/climateAction/DisasterAlertScreen";
 import DisasterNewsListScreen from "../app/screens/climateAction/DisasterNewsListScreen";
 import WhetherScreen from "../app/screens/climateAction/WhetherScreen";
+import ProductListScreen from '../app/screens/ecoProduct/ProductListScreen';
+import SelectProductScreen from '../app/screens/ecoProduct/SelectedProductScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -31,7 +33,7 @@ const Index = () => {
     <>
       <StatusBar barStyle="light-content" backgroundColor="#1D78C3" />
      
-        <Stack.Navigator initialRouteName="SplashScreen">
+        <Stack.Navigator initialRouteName="LoginScreen">
           <Stack.Screen
             name="TestScreen"
             component={TestScreen}
@@ -139,6 +141,16 @@ const Index = () => {
           <Stack.Screen
             name="WhetherScreen"
             component={WhetherScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ProductListScreen"
+            component={ProductListScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="SelectProductScreen"
+            component={SelectProductScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
