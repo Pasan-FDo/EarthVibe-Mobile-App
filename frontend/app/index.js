@@ -1,5 +1,4 @@
 import { StatusBar } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TestScreen from "../app/screens/TestScreen";
 import SplashScreen from "../app/screens/SplashScreen";
@@ -24,15 +23,16 @@ import DisasterNewsListScreen from "../app/screens/climateAction/DisasterNewsLis
 import WhetherScreen from "../app/screens/climateAction/WhetherScreen";
 import ProductListScreen from '../app/screens/ecoProduct/ProductListScreen';
 import SelectProductScreen from '../app/screens/ecoProduct/SelectedProductScreen';
+import Invoice from "./screens/ecoProduct/Invoice";
 
 
 const Stack = createNativeStackNavigator();
 
 const Index = () => {
+ 
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#1D78C3" />
-     
         <Stack.Navigator initialRouteName="LoginScreen">
           <Stack.Screen
             name="TestScreen"
@@ -151,6 +151,11 @@ const Index = () => {
           <Stack.Screen
             name="SelectProductScreen"
             component={SelectProductScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="InvoiceScreen"
+            component={Invoice}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

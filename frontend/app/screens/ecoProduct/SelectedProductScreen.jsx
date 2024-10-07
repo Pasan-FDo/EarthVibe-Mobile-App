@@ -1,180 +1,218 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+  Modal, // Import Modal
+  ScrollView,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Header from '../../components/Header';
 
-const SelectedProductScreen = () => {
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: 'John',
-      avatar: 'https://bootdey.com/img/Content/avatar/avatar1.png',
-      statusPhotos: [
-        { id: 1, image: 'https://www.bootdey.com/image/250x250/FF0000/FF0000', description: 'Tap the image to see the next' },
-        { id: 2, image: 'https://www.bootdey.com/image/250x250/008B8B/008B8B', description: 'Tap another user to see the status' },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Alice',
-      avatar: 'https://bootdey.com/img/Content/avatar/avatar2.png',
-      statusPhotos: [
-        { id: 1, image: 'https://www.bootdey.com/image/250x250/7FFF00/7FFF00', description: '1 This is the description' },
-        { id: 2, image: 'https://www.bootdey.com/image/250x250/6495ED/6495ED', description: '2 This is the description' },
-        { id: 3, image: 'https://www.bootdey.com/image/250x250/008B8B/008B8B', description: '3 This is the description'},
-        { id: 4, image: 'https://www.bootdey.com/image/250x250/00008B/00008B', description: '4 This is the description' },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Alice',
-      avatar: 'https://bootdey.com/img/Content/avatar/avatar3.png',
-      statusPhotos: [
-        { id: 1, image: 'https://www.bootdey.com/image/250x250/00CED1/00CED1', description: 'Tap the image to see the next' },
-        { id: 2, image: 'https://www.bootdey.com/image/250x250/00CED1/00CED1', description: 'Tap another user to see the status' },
-      ],
-    },
-    {
-      id: 4,
-      name: 'Alice',
-      avatar: 'https://bootdey.com/img/Content/avatar/avatar4.png',
-      statusPhotos: [{ id: 1, image: 'https://www.bootdey.com/image/250x250/BA55D3/BA55D3', description: 'Alice enjoying the sunset' }],
-    },
-    {
-      id: 5,
-      name: 'Alice',
-      avatar: 'https://bootdey.com/img/Content/avatar/avatar5.png',
-      statusPhotos: [{ id: 1, image: 'https://www.bootdey.com/image/250x250/FF4500/FF4500', description: 'Alice enjoying the sunset' }],
-    },
-    {
-      id: 6,
-      name: 'Alice',
-      avatar: 'https://bootdey.com/img/Content/avatar/avatar6.png',
-      statusPhotos: [{ id: 1, image: 'https://www.bootdey.com/image/250x250/00FF00/00FF00', description: 'Alice enjoying the sunset' }],
-    },
-    {
-      id: 7,
-      name: 'Alice',
-      avatar: 'https://bootdey.com/img/Content/avatar/avatar7.png',
-      statusPhotos: [{ id: 1, image: 'https://www.bootdey.com/image/250x250/FF4500/FF4500', description: 'Alice enjoying the sunset' }],
-    },
-    {
-      id: 8,
-      name: 'Alice',
-      avatar: 'https://bootdey.com/img/Content/avatar/avatar8.png',
-      statusPhotos: [{ id: 1, image: 'https://www.bootdey.com/image/250x250/191970/191970', description: 'Alice enjoying the sunset' }],
-    },
-  ]);
-  const [selectedUser, setSelectedUser] = useState(1);
-  const [statusPhotos, setStatusPhotos] = useState(users[0].statusPhotos);
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+export default SelectedProductScreen = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
 
+  const categories = [
+    { id: 1, name: 'Clothes', icon: 'tshirt-crew' },
+    { id: 2, name: 'Garden', icon: 'broom' },
+    { id: 3, name: 'Kitchen', icon: 'silverware-clean' },
+    { id: 4, name: 'Jewelry', icon: 'necklace' },
+    { id: 5, name: 'Beauty', icon: 'magic-staff' },
+  ];
 
-
-  const handleUserSelect = (userId) => {
-    setSelectedUser(userId);
-    setStatusPhotos(users.find((user) => user.id === userId)?.statusPhotos || []);
-    setCurrentPhotoIndex(0);
+  const ecoBrushSet = {
+    name: 'Eco Brush Set',
+    description:
+      'The EcoTools Brushes feature our signature smooth, renewable bamboo handles, synthetic Taklon bristles, and sleek ferrules made with recycled aluminum for a clean beauty experience.',
+    price: 'Rs. 2000.00',
+    image: require('../../assets/images/ecoProduct/product_1.jpg'), // Placeholder
   };
 
-  const handleStatusPhotoPress = () => {
-    if (statusPhotos.length > 0) {
-      setCurrentPhotoIndex((prevIndex) => (prevIndex + 1) % statusPhotos.length);
-    }
+  const handleAddToCart = () => {
+    Alert.alert('Success', 'The product has been added to your cart');
+
+  };
+
+  const handleBuyNow = () => {
+    setModalVisible(true); // Show the modal when "Buy Now" is clicked
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {users.map((user) => (
-            <TouchableOpacity
-              key={user.id}
-              onPress={() => handleUserSelect(user.id)}
-              style={styles.userItem}
-            >
-              <Image source={{ uri: user.avatar }} style={styles.userPhoto} />
-              <Text style={selectedUser === user.id ? styles.selectedUserName : styles.userName}>{user.name}</Text>
-              <Text style={styles.statusIndicator}>{user.statusPhotos.length}</Text>
+      <Header title="Eco brush set" image={require('../../assets/images/profile.png')}/>
+
+      <View style={styles.productContainer}>
+        <Image style={styles.productImage} source={ecoBrushSet.image} />
+        <View style={styles.iconMain}>
+          <Text style={styles.productTitle}>{ecoBrushSet.name}</Text>
+          <View style={styles.iconContainer}>
+            <TouchableOpacity>
+              <Icon name="share-variant" size={25} color="#0E395D" style={styles.headerIcon} />
             </TouchableOpacity>
-          ))}
-        </ScrollView>
+            <TouchableOpacity>
+              <Icon name="cart" size={25} color="#0E395D" style={styles.headerIcon} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <Text style={styles.productDescription}>{ecoBrushSet.description}</Text>
+        <Text style={styles.productPrice}>{ecoBrushSet.price}</Text>
+
+        {/* Buttons */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.addToCartButton} onPress={handleAddToCart}>
+            <Text style={styles.buttonText}>Add to Cart</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buyNowButton} onPress={handleBuyNow}>
+            <Text style={styles.buttonText}>Buy Now</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
-      {selectedUser && (
-        <View style={styles.statusContainer}>
-          <TouchableOpacity onPress={handleStatusPhotoPress}>
-            <Image
-              source={
-                statusPhotos.length > 0
-                  ? { uri: statusPhotos[currentPhotoIndex].image }
-                  : { uri: users.find((user) => user.id === selectedUser)?.avatar }
-              }
-              style={styles.statusPhoto}
-              resizeMode="cover"
-            />
-          </TouchableOpacity>
-          {statusPhotos.length > 0 && (
-            <Text style={styles.statusDescription}>{statusPhotos[currentPhotoIndex].description}</Text>
-          )}
+      {/* Modal Implementation */}
+      <Modal
+        transparent={true}
+        animationType="slide"
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Purchase Confirmation</Text>
+            <Text>Are you sure you want to buy {ecoBrushSet.name} for {ecoBrushSet.price}?</Text>
+
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.modalButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.confirmButton]}
+                onPress={() => {
+                  setModalVisible(false);
+                  Alert.alert('Purchase Successful', 'Thank you for your purchase!');
+                  navigation.navigate('InvoiceScreen');
+
+                }}
+              >
+                <Text style={styles.modalButtonText}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      )}
+      </Modal>
     </View>
   );
 };
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop:60,
+    backgroundColor: '#fff',
   },
-  header: {
-    paddingHorizontal: 10,
-    paddingVertical: 20,
+  productContainer: {
+    padding: 15,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginHorizontal: 10,
   },
-  userItem: {
-    marginRight: 10,
-
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
+  productImage: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'contain',
   },
-  userPhoto: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-  },
-  userName: {
-    marginTop: 5,
-    textAlign: 'center',
-  },
-  selectedUserName: {
-    marginTop: 5,
-    textAlign: 'center',
+  productTitle: {
+    fontSize: 18,
     fontWeight: 'bold',
-    color:'#DC143C'
+    marginVertical: 10,
   },
-  statusIndicator: {
-    marginTop: 5,
-    textAlign: 'center',
-    fontSize: 12,
-    color: 'gray',
+  productDescription: {
+    fontSize: 14,
+    color: '#7f7f7f',
   },
-  statusContainer: {
+  productPrice: {
+    fontSize: 18,
+    color: '#0E395D',
+    marginVertical: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  addToCartButton: {
+    backgroundColor: '#E0E0E0',
+    padding: 15,
+    borderRadius: 10,
+    width: '48%',
     alignItems: 'center',
+  },
+  buyNowButton: {
+    backgroundColor: '#1D78C3',
+    padding: 15,
+    borderRadius: 10,
+    width: '48%',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
   },
-  statusPhoto: {
-    width: windowWidth,
-    height: windowHeight - 300,
+  modalContent: {
+    width: '80%',
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
   },
-  statusDescription: {
-    fontSize:18,
-    marginTop: 10,
-    textAlign: 'center',
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+  modalButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  modalButton: {
+    backgroundColor: '#E0E0E0',
+    padding: 10,
+    borderRadius: 10,
+    width: 100,
+    alignItems: 'center',
+    marginLeft:20,
+
+  },
+  confirmButton: {
+    backgroundColor: '#1D78C3',
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  iconContainer:{
+    flexDirection: 'row',
+  },
+  iconMain:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: 20,
+  },
+  headerIcon: {
+    marginLeft: 20,
   },
 });
 
-export default SelectedProductScreen;

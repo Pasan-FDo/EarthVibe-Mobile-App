@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  StatusBar,
   SafeAreaView,
   ScrollView,
   View,
@@ -8,9 +9,9 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
-  StatusBar,
 } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
+import Header from "../components/Header";
 
 const HomeScreen = ({ navigation }) => {
 
@@ -62,7 +63,7 @@ const HomeScreen = ({ navigation }) => {
     {
       id: "2",
       title: "Earth     Events",
-      icon: require("../assets/images/homeScreen/weather_events.png"),
+      icon: require("../assets/images/homeScreen/earth_event.png"),
       navigateTo: "EventScreen",
     },
     {
@@ -74,7 +75,7 @@ const HomeScreen = ({ navigation }) => {
     {
       id: "4",
       title: "Weather Alerts",
-      icon: require("../assets/images/homeScreen/weather_alert.png"),
+      icon: require("../assets/images/homeScreen/weather.png"),
       navigateTo: "WhetherScreen",
     },
   ];
@@ -183,21 +184,11 @@ const HomeScreen = ({ navigation }) => {
   );
 
   return (
+    <>
+    <StatusBar barStyle="light-content" backgroundColor="#1D78C3" />
     <SafeAreaView className="flex-1 bg-gray-100">
-      <StatusBar barStyle="light-content" backgroundColor="#1D78C3" />
       <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-        <View className="bg-[#1D78C3]">
-          <View className="flex-row justify-between items-start px-6 py-8">
-            <Text className="text-3xl text-left ml-6 text-white font-bold">
-              Welcome to Earth Vibe
-            </Text>
-            <Image
-              source={require("../assets/images/EarthVibeLogo.png")}
-              className="w-20 h-20 rounded-full mt-3"
-              resizeMode="cover"
-            />
-          </View>
-        </View>
+        <Header title="Welcome to Earth Vibe" image={require("../assets/images/EarthVibeLogo.png")}/>
         <View className="mt-4">
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View className="flex-row px-4">
@@ -228,6 +219,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
       </ScrollView>
     </SafeAreaView>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ImageBackground, Image, TextInput, TouchableOpacity, ScrollView, StatusBar, Dimensions } from 'react-native';
+import { View, Text, SafeAreaView, ImageBackground, Image, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import React, { useState } from 'react';
 
 const { width, height } = Dimensions.get('window'); // Get screen dimensions
@@ -8,7 +8,7 @@ function LoginScreen({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar barStyle="light-content" backgroundColor="#1D78C3" />
+      
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
         <ImageBackground 
           style={{ width: width, height: '110%', position: 'absolute' }} 

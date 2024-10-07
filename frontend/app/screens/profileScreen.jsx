@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, TextInput, Image,StatusBar } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, TextInput, Image } from 'react-native';
 import React from 'react';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
