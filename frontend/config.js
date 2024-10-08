@@ -4,13 +4,12 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBQXl1s65EKvbz8b_hcSzEyXT8w05VUCHs",
-    authDomain: "earth-vibe.firebaseapp.com",
-    projectId: "earth-vibe",
-    storageBucket: "earth-vibe.appspot.com",
-    messagingSenderId: "382238614510",
-    appId: "1:382238614510:web:09841bcbbd2165b5ac24ff",
-    measurementId: "G-BVJB5H1P2E"
+  apiKey: "AIzaSyCCCbXgikjeYLLu1qAlLBijM1mE7LDWJO0",
+  authDomain: "earthvibe-72fbd.firebaseapp.com",
+  projectId: "earthvibe-72fbd",
+  storageBucket: "earthvibe-72fbd.appspot.com",
+  messagingSenderId: "710905816054",
+  appId: "1:710905816054:web:c98e25b58c6662b88bddd7"
 };
 
 if (!firebase.apps.length) {

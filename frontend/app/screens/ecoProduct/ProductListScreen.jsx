@@ -262,20 +262,20 @@ const styles = StyleSheet.create({
   cardContent: {
     paddingVertical: 10,
     paddingHorizontal: 10,
-    alignItems: 'center', // Center align name and price
+    alignItems: 'center',
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
-    textAlign: 'center', // Center align the product title
+    textAlign: 'center',
   },
   price: {
     fontSize: 14,
     color: '#0E395D',
     fontWeight: 'semibold',
     marginTop: 5,
-    textAlign: 'center', // Center align the price
+    textAlign: 'center',
   },
   
   cardFooter: {
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   socialBarContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%', // Ensure full width for buttons
+    width: '100%', 
   },
   socialBarButton: {
     flexDirection: 'row',

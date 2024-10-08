@@ -33,7 +33,7 @@ const Index = () => {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#1D78C3" />
-        <Stack.Navigator initialRouteName="LoginScreen">
+        <Stack.Navigator initialRouteName="SplashScreen">
           <Stack.Screen
             name="TestScreen"
             component={TestScreen}
