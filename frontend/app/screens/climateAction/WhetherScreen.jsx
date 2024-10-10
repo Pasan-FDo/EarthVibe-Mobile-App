@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     temperature: {
-        fontSize: 60,
+        fontSize: 50,
         color: '#fff',
         fontWeight: 'bold',
     },
