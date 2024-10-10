@@ -1,24 +1,60 @@
-import { View, Text, SafeAreaView, ScrollView, TextInput, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { View, Text, SafeAreaView, ScrollView, TextInput, TouchableOpacity, ActivityIndicator, Image, StyleSheet, Animated } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
 import NavigationBar from '../../components/NavigationBar';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import * as Location from 'expo-location';
+import LottieView from 'lottie-react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import Header from '../../components/Header';
 
-const WeatherScreen = ({navigation}) => {
+const WeatherScreen = ({ navigation }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [weatherData, setWeatherData] = useState(null);
     const [forecastData, setForecastData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [locationPermissionDenied, setLocationPermissionDenied] = useState(false);
     const apiKey = '8561cb293616fe29259448fd098f654b'; // Your OpenWeatherMap API Key
+    const fadeAnim = useRef(new Animated.Value(0)).current; // For fade-in animation
 
     useEffect(() => {
         // Fetch current weather for the user's location when the component mounts
         getWeatherForCurrentLocation();
     }, []);
 
+    useEffect(() => {
+        // Fade-in animation when weatherData changes
+        if (weatherData) {
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 1000,
+                useNativeDriver: true,
+            }).start();
+        }
+    }, [weatherData]);
+// Function to determine gradient colors based on weather condition
+const getGradientColors = () => {
+    if (!weatherData) return ['#2980B9', '#6DD5FA']; // Default gradient
+
+    const condition = weatherData.weather[0].main.toLowerCase();
+    switch (condition) {
+        case 'clear':
+            return ['#FF7300', '#FEF253'];
+        case 'rain':
+            return ['#00C6FB', '#005BEA'];
+        case 'clouds':
+            return ['#D7D2CC', '#304352'];
+        case 'snow':
+            return ['#7DE2FC', '#B9B6E5'];
+        case 'thunderstorm':
+            return ['#373B44', '#4286f4'];
+        case 'drizzle':
+            return ['#89F7FE', '#66A6FF'];
+        default:
+            return ['#2980B9', '#6DD5FA'];
+    }
+};
     // Function to fetch weather data by city name
     const fetchWeatherData = async (city) => {
         setLoading(true);
@@ -30,6 +66,7 @@ const WeatherScreen = ({navigation}) => {
             fetchForecastData(response.data.coord.lat, response.data.coord.lon); // Fetch forecast for the same location
         } catch (error) {
             console.error('Error fetching weather data:', error);
+            alert('City not found. Please try another search.');
         }
         setLoading(false);
     };
@@ -67,7 +104,6 @@ const WeatherScreen = ({navigation}) => {
                 `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
             );
             setWeatherData(response.data);
-            console.log(response.data);
             fetchForecastData(lat, lon);
         } catch (error) {
             console.error('Error fetching weather data by location:', error);
@@ -82,104 +118,300 @@ const WeatherScreen = ({navigation}) => {
         }
     };
 
+   
+
+    // Function to select appropriate Lottie animation based on weather condition
+    const getWeatherAnimation = () => {
+        if (!weatherData) return require('../../assets/animations/cloudy.json'); // Default animation
+
+        const condition = weatherData.weather[0].main.toLowerCase();
+        console.log("weather change================",condition);
+        switch (condition) {
+            case 'clear':
+                return require('../../assets/animations/sunny.json');
+            case 'rain':
+                return require('../../assets/animations/rainy.json');
+            case 'clouds':
+                return require('../../assets/animations/cloudy.json');
+            case 'snow':
+                return require('../../assets/animations/cloudy.json');
+            case 'thunderstorm':
+                return require('../../assets/animations/cloudy.json');
+            case 'drizzle':
+                return require('../../assets/animations/cloudy.json');
+            default:
+                return require('../../assets/animations/cloudy.json');
+        }
+    };
+
     return (
-        <SafeAreaView className="flex-1">
-            <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-                {/* Header */}
-                <View className="bg-[#1D78C3] pb-2">
-                    <Text className="text-3xl text-center text-white font-bold">Climate</Text>
-                </View>
-                <View className="flex-row justify-between items-center px-6 pt-6">
-                    <View className="w-4/5 flex-row items-center bg-white rounded-full px-3 py-1">
-                        <Entypo name="magnifying-glass" size={20} color="#666" />
-                        <TextInput
-                            className="ml-2 flex-1"
-                            placeholder="Search"
-                            value={searchQuery}
-                            onChangeText={setSearchQuery}
-                        />
+        <SafeAreaView style={styles.container}>
+             <LinearGradient colors={getGradientColors()} style={styles.gradient}>
+                <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
+                   <Header title="Climate" image={require('../../assets/images/profile.png')}/>
+                    {/* Search Bar */}
+                    <View style={styles.searchContainer}>
+                        <View style={styles.searchInput}>
+                            <Entypo name="magnifying-glass" size={20} color="#666" />
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder="Search"
+                                value={searchQuery}
+                                onChangeText={setSearchQuery}
+                                onSubmitEditing={handleSearch}
+                                returnKeyType="search"
+                            />
+                        </View>
+                        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+                            <Entypo name="magnifying-glass" size={28} color="white" />
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={handleSearch}>
-                        <Entypo name="magnifying-glass" size={28} color="black" />
-                    </TouchableOpacity>
+
+                    {loading ? (
+                        <ActivityIndicator size="large" color="#fff" style={{ marginTop: 50 }} />
+                    ) : (
+                        <>
+                            {/* Weather Animation */}
+                            {weatherData && (
+                                <View style={styles.animationContainer}>
+                                    <LottieView
+                                        source={getWeatherAnimation()}
+                                        autoPlay
+                                        loop
+                                        style={styles.lottie}
+                                    />
+                                </View>
+                            )}
+
+                            {/* Main Weather Info with Fade-In Animation */}
+                            {weatherData && (
+                                <Animated.View style={[styles.weatherInfo, { opacity: fadeAnim }]}>
+                                    <Text style={styles.temperature}>
+                                        {weatherData.main.temp}°C
+                                    </Text>
+                                    <Text style={styles.location}>
+                                        {weatherData.name}, {weatherData.sys.country}
+                                    </Text>
+                                    <Text style={styles.date}>
+                                        {new Date().toLocaleTimeString()} {'\n'}
+                                        {new Date().toLocaleDateString()}
+                                    </Text>
+                                </Animated.View>
+                            )}
+
+                            {/* Weather Details */}
+                            {weatherData && (
+                                <View style={styles.detailsContainer}>
+                                    <View style={styles.detailItem}>
+                                        <MaterialCommunityIcons name="weather-windy" size={30} color="#fff" />
+                                        <Text style={styles.detailText}>{weatherData.wind.speed} km/h</Text>
+                                        <Text style={styles.detailLabel}>Wind</Text>
+                                    </View>
+                                    <View style={styles.detailItem}>
+                                        <MaterialCommunityIcons name="water-percent" size={30} color="#fff" />
+                                        <Text style={styles.detailText}>{weatherData.main.humidity}%</Text>
+                                        <Text style={styles.detailLabel}>Humidity</Text>
+                                    </View>
+                                    <View style={styles.detailItem}>
+                                        <MaterialCommunityIcons name="weather-rainy" size={30} color="#fff" />
+                                        <Text style={styles.detailText}>{weatherData.clouds.all}%</Text>
+                                        <Text style={styles.detailLabel}>Cloudiness</Text>
+                                    </View>
+                                </View>
+                            )}
+
+                            {/* Forecast Section */}
+                            {forecastData.length > 0 && (
+                                <View style={styles.forecastContainer}>
+                                    <TouchableOpacity style={styles.forecastHeader}>
+                                        <Entypo name="chevron-up" size={20} color="white" />
+                                        <Text style={styles.forecastHeaderText}>7 Day Forecast</Text>
+                                    </TouchableOpacity>
+
+                                    {/* Forecast Cards */}
+                                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.forecastScroll}>
+                                        {forecastData.slice(0, 7).map((forecast, index) => (
+                                            <View key={index} style={styles.forecastCard}>
+                                                <Text style={styles.forecastDate}>
+                                                    {new Date(forecast.dt_txt).toLocaleDateString('en-US', { weekday: 'short' })}
+                                                </Text>
+                                                <MaterialCommunityIcons
+                                                    name={getWeatherIcon(forecast.weather[0].main)}
+                                                    size={30}
+                                                    color="#fff"
+                                                />
+                                                <Text style={styles.forecastTemp}>{Math.round(forecast.main.temp)}°C</Text>
+                                            </View>
+                                        ))}
+                                    </ScrollView>
+                                </View>
+                            )}
+                        </>
+                    )}
+                </ScrollView>
+
+                {/* Navigation Bar */}
+                <View style={styles.navBar}>
+                    <NavigationBar navigation={navigation} />
                 </View>
-
-                {loading ? (
-                    <ActivityIndicator size="large" color="#0000ff" />
-                ) : (
-                    <>
-                        {/* Main Weather Info */}
-                        {weatherData && (
-                            <View className="flex items-center my-4">
-                               <Image
-                                    source={{ uri: `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png` }}
-                                    style={{ width: 100, height: 100 }}
-                                />
-                                <Text className="text-6xl font-bold text-black">
-                                    {weatherData ? `${weatherData.main.temp}°C` : 'N/A'}
-                                </Text>
-                                <Text className="text-lg text-gray-500">
-                                    {weatherData ? `${weatherData.name}, ${weatherData.sys.country}` : 'Unknown Location'}
-                                </Text>
-                                <Text className="text-sm text-gray-500">
-                                    {new Date().toLocaleTimeString()} {new Date().toLocaleDateString()}
-                                </Text>
-                            </View>
-                        )}
-
-                        {/* Weather Details */}
-                        {weatherData && (
-                            <View className="flex-row justify-around mx-4">
-                                <View className="items-center">
-                                    <MaterialCommunityIcons name="weather-windy" size={30} color="#000" />
-                                    <Text className="text-sm">{weatherData.wind.speed} km/h</Text>
-                                    <Text className="text-xs text-gray-500">Wind</Text>
-                                </View>
-                                <View className="items-center">
-                                    <MaterialCommunityIcons name="water-percent" size={30} color="#000" />
-                                    <Text className="text-sm">{weatherData.main.humidity}%</Text>
-                                    <Text className="text-xs text-gray-500">Humidity</Text>
-                                </View>
-                                <View className="items-center">
-                                    <MaterialCommunityIcons name="weather-rainy" size={30} color="#000" />
-                                    <Text className="text-sm">{weatherData.clouds.all}%</Text>
-                                    <Text className="text-xs text-gray-500">Cloudiness</Text>
-                                </View>
-                            </View>
-                        )}
-
-                        {/* Forecast Section */}
-                        {forecastData.length > 0 && (
-                            <View className="mt-6 mx-6">
-                                <TouchableOpacity className="bg-[#1D78C3] p-3 rounded-md flex-row justify-center items-center">
-                                    <Entypo name="chevron-up" size={20} color="white" />
-                                    <Text className="text-white text-lg ml-2">7 Day Forecast</Text>
-                                </TouchableOpacity>
-
-                                {/* Forecast Cards */}
-                                <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4">
-                                    {forecastData.slice(0, 5).map((forecast, index) => (
-                                        <View key={index} className="bg-white border-gray-200 shadow-[20px] rounded-lg mx-2 p-3 items-center">
-                                            <Text className="text-gray-500">
-                                                {new Date(forecast.dt_txt).toLocaleDateString()}
-                                            </Text>
-                                            <MaterialCommunityIcons name="weather-partly-cloudy" size={30} color="#000" />
-                                            <Text className="text-lg">{Math.round(forecast.main.temp)}°C</Text>
-                                        </View>
-                                    ))}
-                                </ScrollView>
-                            </View>
-                        )}
-                    </>
-                )}
-            </ScrollView>
-
-            {/* Navigation Bar */}
-            <View className="absolute bottom-0 left-0 right-0">
-                <NavigationBar navigation={navigation}/>
-            </View>
+                </LinearGradient>
         </SafeAreaView>
     );
 };
+
+// Helper function to get appropriate weather icons
+const getWeatherIcon = (condition) => {
+    switch (condition.toLowerCase()) {
+        case 'clear':
+            return 'weather-sunny';
+        case 'rain':
+            return 'weather-rainy';
+        case 'clouds':
+            return 'weather-cloudy';
+        case 'snow':
+            return 'weather-snowy';
+        case 'thunderstorm':
+            return 'weather-lightning';
+        case 'drizzle':
+            return 'weather-hail';
+        default:
+            return 'weather-partly-cloudy';
+    }
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    gradient: {
+        flex: 1,
+    },
+    header: {
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        paddingVertical: 20,
+    },
+    headerText: {
+        fontSize: 32,
+        textAlign: 'center',
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    searchContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        marginTop: 20,
+    },
+    searchInput: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'rgba(255,255,255,0.3)',
+        borderRadius: 25,
+        paddingHorizontal: 15,
+        flex: 1,
+        marginRight: 10,
+    },
+    textInput: {
+        marginLeft: 10,
+        flex: 1,
+        color: '#fff',
+    },
+    searchButton: {
+        backgroundColor: '#1D78C3',
+        padding: 10,
+        borderRadius: 25,
+    },
+    animationContainer: {
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    lottie: {
+        width: 150,
+        height: 150,
+    },
+    weatherInfo: {
+        alignItems: 'center',
+        marginVertical: 20,
+    },
+    temperature: {
+        fontSize: 60,
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    location: {
+        fontSize: 20,
+        color: '#fff',
+    },
+    date: {
+        fontSize: 14,
+        color: '#fff',
+        marginTop: 5,
+        textAlign: 'center',
+    },
+    detailsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginHorizontal: 20,
+        marginVertical: 10,
+    },
+    detailItem: {
+        alignItems: 'center',
+    },
+    detailText: {
+        color: '#fff',
+        fontSize: 16,
+        marginTop: 5,
+    },
+    detailLabel: {
+        color: '#ddd',
+        fontSize: 12,
+        marginTop: 2,
+    },
+    forecastContainer: {
+        marginTop: 20,
+    },
+    forecastHeader: {
+        backgroundColor: 'rgba(29, 120, 195, 0.7)',
+        padding: 10,
+        borderRadius: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    forecastHeaderText: {
+        color: '#fff',
+        fontSize: 18,
+        marginLeft: 5,
+    },
+    forecastScroll: {
+        marginTop: 10,
+        paddingLeft: 20,
+    },
+    forecastCard: {
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        borderRadius: 15,
+        padding: 15,
+        alignItems: 'center',
+        marginRight: 15,
+        width: 100,
+    },
+    forecastDate: {
+        color: '#fff',
+        fontSize: 14,
+        marginBottom: 5,
+    },
+    forecastTemp: {
+        color: '#fff',
+        fontSize: 16,
+        marginTop: 5,
+    },
+    navBar: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+});
 
 export default WeatherScreen;
