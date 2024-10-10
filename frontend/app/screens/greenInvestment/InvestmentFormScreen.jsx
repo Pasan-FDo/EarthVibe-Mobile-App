@@ -16,7 +16,7 @@ const InvestmentFormScreen = ({navigation}) => {
     return (
         <SafeAreaView className="flex-1">
             <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-                <View className="bg-[#1D78C3]">
+                <View className="bg-[#111214]">
                     <View className="flex-row items-center px-6 pt-8 pb-3">
                         <TouchableOpacity>
                             <FontAwesome6 name="arrow-left" size={20} color="white" />
@@ -48,23 +48,6 @@ const InvestmentFormScreen = ({navigation}) => {
                                 style={{ paddingTop: 10, paddingLeft: 10 }} // Adjust padding to position placeholder
                             />
                         </View>
-
-                        {/* Uncomment and use DateTimePicker if needed */}
-                        {/* <View>
-                            <Text className="text-gray-500 mb-2">Date</Text>
-                            <TouchableOpacity onPress={() => setShow(true)} className="bg-gray-100 rounded-[6px] pl-4 pt-2 pb-2 w-full border border-gray-300 focus:bg-white focus:border-[#1D78C3] focus:ring-2 focus:ring-[#1D78C3] outline-none text-gray-800 mb-4">
-                                <Text>{date.toDateString()}</Text>
-                            </TouchableOpacity>
-                            {show && (
-                                <DateTimePicker
-                                    value={date}
-                                    mode="date"
-                                    display="default"
-                                    onChange={onChange}
-                                />
-                            )}
-                        </View> */}
-
                         <View>
                             <Text className="text-gray-500 mb-2">Date</Text>
                             <TextInput

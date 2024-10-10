@@ -4,9 +4,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const EventCard = ({ data }) => {
     return (
-       
-
-
         <View  style={{
             backgroundColor: '#F1F5F9', // Slate color (bg-slate-100)
             borderRadius: 10,
