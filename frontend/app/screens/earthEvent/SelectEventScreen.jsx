@@ -133,7 +133,7 @@ const SelectEventScreen = ({route, navigation}) => {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity className="flex-1 ml-2" onPress={()=>navigation.navigate()}>
+                <TouchableOpacity className="flex-1 ml-2" onPress={handleLocationPress}>
                     <View className="bg-blue-500 flex justify-center items-center h-12 rounded-[10px]">
                         <Text className="text-xl text-white">Location</Text>
                     </View>
