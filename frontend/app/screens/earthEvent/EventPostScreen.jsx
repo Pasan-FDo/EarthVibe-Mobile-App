@@ -3,6 +3,7 @@ import React from 'react';
 import NavigationBar from '../../components/NavigationBar';
 import ClimateNewsListCard from '../../components/ClimateNewsListCard';
 import EventPostCard from '../../components/EventPostCard';
+import Header from '../../components/Header';
 
 const EventPostScreen = ({navigation}) => {
     const DataArray = [
@@ -52,11 +53,7 @@ const EventPostScreen = ({navigation}) => {
     return (
         <SafeAreaView className="flex-1">
             <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-                <View className="bg-[#1D78C3]">
-                    <View className="flex-row justify-center items-center px-6 py-8">
-                        <Text className="text-3xl text-center text-white font-bold">Event Post</Text>
-                    </View>
-                </View>
+                <Header title="Event list" image={require('../../assets/images/profile.png')}/>
                 <View className="mt-8 px-4">
                     {DataArray.map((item) => (
                         <EventPostCard key={item._id} data={item} />

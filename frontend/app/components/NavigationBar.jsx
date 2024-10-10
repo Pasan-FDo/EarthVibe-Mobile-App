@@ -36,10 +36,10 @@ const NavigationBar = () => {
             </TouchableOpacity>
 
             {/* Tips Screen */}
-            <TouchableOpacity onPress={() => handlePress('SelectTipsScreen')}>
+            <TouchableOpacity onPress={() => handlePress('EventScreen')}>
                 <View className="flex items-center">
-                    <MaterialCommunityIcons name="head-lightbulb" size={25} color={selected === 'SelectTipsScreen' ? "#1D78C3" : "#4F4F4F"} />
-                    <Text className={`text-center font-semibold ${selected === 'SelectTipsScreen' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'} text-xs`}>
+                    <MaterialCommunityIcons name="head-lightbulb" size={25} color={selected === 'EventScreen' ? "#1D78C3" : "#4F4F4F"} />
+                    <Text className={`text-center font-semibold ${selected === 'EventScreen' ? 'text-[#1D78C3]' : 'text-[#4F4F4F]'} text-xs`}>
                         TIPS
                     </Text>
                 </View>

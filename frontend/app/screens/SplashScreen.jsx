@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Image, Animated, StatusBar } from 'react-native';
 import * as Progress from 'react-native-progress';
 
-
 const SplashScreen = ({navigation}) => {
   const [progress, setProgress] = useState(0);
   const progressAnim = useRef(new Animated.Value(0)).current;

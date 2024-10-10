@@ -3,7 +3,7 @@ import React from 'react';
 import GreenInvetmentCard from '../../components/GreenInvetmentCard';
 import NavigationBar from '../../components/NavigationBar';
 
-const GreenInvestmentScreen = () => {
+const GreenInvestmentScreen = ({navigation}) => {
     const DataArray = [
         {
             _id:"1",
@@ -54,7 +54,7 @@ const GreenInvestmentScreen = () => {
                 {DataArray.map((item) => (
                         <TouchableOpacity
                             key={item._id}
-                            onPress={()=> NavigationBar.navigate('SelectGreenInvestmentScreen')}
+                            onPress={()=> navigation.navigate('InvestmentFormScreen')}
                             // onPress={() => router.push({ pathname: `/selectGreenInvestment`, params: item})}
                         >
                             <GreenInvetmentCard data={item} />

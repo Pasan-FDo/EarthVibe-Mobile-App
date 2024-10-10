@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, TextInput, Dimensions, Platform } from 'react-native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import Header from '../../components/Header';
 // import DateTimePicker from '@react-native-community/datetimepicker'; // Import the DateTimePicker component
 
 const EventFormScreen = ({navigation}) => {
@@ -16,14 +17,8 @@ const EventFormScreen = ({navigation}) => {
     return (
         <SafeAreaView className="flex-1">
             <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-                <View className="bg-[#1D78C3]">
-                    <View className="flex-row items-center px-6 pt-8 pb-3">
-                        <TouchableOpacity onPress={()=>navigation.navigate('EventScreen')}>
-                            <FontAwesome6 name="arrow-left" size={20} color="white" />
-                        </TouchableOpacity>
-                        <Text className="text-2xl text-center ml-20 text-white font-bold">Event Form</Text>
-                    </View>
-                </View>
+
+            <Header title="Register the Event" image={require('../../assets/images/profile.png')}/>
                 <View className="bg-white flex-1">
                     <View className="mr-6 ml-6 mt-5 flex-1">
                         <Text className="py-4 text-[#1D78C3]">Fill This Form To Post Event</Text>
@@ -107,7 +102,7 @@ const EventFormScreen = ({navigation}) => {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity className="flex-1 ml-2">
+                <TouchableOpacity className="flex-1 ml-2" onPress={()=>navigation.navigate('EventPostScreen')}>
                     <View className="bg-blue-500 flex justify-center items-center h-12 rounded-[10px]">
                         <Text className="text-xl text-white">Submit</Text>
                     </View>

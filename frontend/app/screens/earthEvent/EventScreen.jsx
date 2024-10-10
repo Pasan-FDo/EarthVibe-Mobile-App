@@ -4,6 +4,8 @@ import NavigationBar from '../../components/NavigationBar';
 import { useRouter } from 'expo-router';
 import { TouchableOpacity } from 'react-native';
 import EventCard from '../../components/EventCard';
+import Header from '../../components/Header';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 const EventScreen = ({navigation}) => {
     const router = useRouter()
@@ -96,22 +98,19 @@ const EventScreen = ({navigation}) => {
     return (
         <SafeAreaView className="flex-1">
             <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-                <View className="bg-[#1D78C3]">
-                    <View className="flex-row justify-between items-center px-6 py-8">
-                        <Text className="text-3xl text-center ml-6 pl-[25%] text-white font-bold">Event</Text>
-                        <Image
-                            source={require('../../assets/images/profile.png')}
-                            className="w-14 h-14 rounded-full"
-                            resizeMode="cover"
-                        />
-                    </View>
-                </View>
+                <Header title="Event & Tips" image={require('../../assets/images/profile.png')}/>
+                <View className="flex-row justify-start items-center">
                 <Text className="text-lg text-black font-semibold py-2 px-6">Recent Events</Text>
+                <TouchableOpacity onPress={()=>navigation.navigate('EventFormScreen')}>
+                        <Icon name="folder-plus" size={22} color="#1D78C3" />
+                    </TouchableOpacity>
+                </View>
+               
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View className="flex-row px-4 py-4">
                         {
                             EventArray.map((event) => (
-                                <TouchableOpacity key={event._id} onPress={()=>router.push({ pathname: `/SelectEvent`, params: event })}>
+                                <TouchableOpacity key={event._id} onPress={()=> navigation.navigate('SelectEventScreen',{event})}>
                                     <View className="px-4">
                                         <Image className="w-32 h-32" source={event.image} />
                                     </View>
@@ -120,14 +119,22 @@ const EventScreen = ({navigation}) => {
                         }
                     </View>
                 </ScrollView>
+                <View className="flex-row items-center">
                 <Text className="text-lg text-black font-semibold py-2 px-6">Recent life hacks and tips</Text>
+                <TouchableOpacity onPress={()=>navigation.navigate('TipsFormScreen')}>
+                        <Icon name="folder-plus" size={22} color="#1D78C3" />
+                    </TouchableOpacity>
+
+                </View>
+               
 
 
                 <View className="mt-4 px-4">
                     {DataArray.map((item) => (
                         <TouchableOpacity
                             key={item._id}
-                            onPress={() => router.push({ pathname: `/selectTips`, params: item })}
+                            // onPress={() => router.push({ pathname: `/selectTips`, params: item })}
+                            onPress={()=> navigation.navigate('SelectTipsScreen',{item})}
                         >
                             <EventCard data={item} />
                         </TouchableOpacity>

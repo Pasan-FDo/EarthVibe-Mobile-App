@@ -13,6 +13,7 @@ import SelectEventScreen from "../app/screens/earthEvent/SelectEventScreen";
 import SelectTipsScreen from "../app/screens/earthEvent/SelectTipsScreen";
 import TipsFormScreen from "../app/screens/earthEvent/TipsFormScreen";
 import TipsListScreen from "../app/screens/earthEvent/TipsListScreen";
+import LocationDetailsScreen from "./screens/earthEvent/LocationDetailsScreen.";
 import GreenInvestmentScreen from "../app/screens/greenInvestment/GreenInvestmentScreen";
 import InvestmentFormScreen from "../app/screens/greenInvestment/InvestmentFormScreen";
 import SelectGreenInvestmentScreen from "../app/screens/greenInvestment/SelectGreenInvestmentScreen";
@@ -98,7 +99,11 @@ const Index = () => {
           component={TipsListScreen}
           options={{ headerShown: false }}
         />
-
+        <Stack.Screen
+          name="LocationDetailsScreen"
+          component={LocationDetailsScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="GreenInvestmentScreen"
           component={GreenInvestmentScreen}
