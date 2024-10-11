@@ -32,7 +32,7 @@ const Index = () => {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#1D78C3" />
-      <Stack.Navigator initialRouteName="SplashScreen">
+      <Stack.Navigator initialRouteName="SplashScreen"  >
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
@@ -51,7 +51,8 @@ const Index = () => {
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false , navigationBarColor: '#1D78C3',
+            navigationBarHidden: false,}}
         />
         <Stack.Screen
           name="ProfileScreen"

@@ -1,80 +1,79 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   StatusBar,
   SafeAreaView,
-  ScrollView,
   View,
   Text,
   Image,
   FlatList,
   TouchableOpacity,
   Dimensions,
+  BackHandler,
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import Header from "../components/Header";
 
 const HomeScreen = ({ navigation }) => {
-
   const screenWidth = Dimensions.get("window").width;
   const numColumns = 2;
   const itemPadding = 16;
   const itemWidth = screenWidth / numColumns - itemPadding * 2;
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {text: 'YES', onPress: () => BackHandler.exitApp()},
+      ]);
+      return true;
+    };
 
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
   const horizontalSections = [
-    {
-      id: "1",
-      title: "About",
-      icon: "appstore1",
-      navigateTo: "HomeScreen",
-    },
-    {
-      id: "2",
-      title: "Settings",
-      icon: "setting",
-      navigateTo: "HomeScreen",
-    },
+    { id: "1", title: "About", icon: "appstore1", navigateTo: "HomeScreen" },
+    { id: "2", title: "Settings", icon: "setting", navigateTo: "HomeScreen" },
     {
       id: "3",
       title: "Privacy",
       icon: "customerservice",
       navigateTo: "HomeScreen",
     },
-    {
-      id: "4",
-      title: "Terms",
-      icon: "filetext1",
-      navigateTo: "HomeScreen",
-    },
-    {
-      id: "5",
-      title: "Earth",
-      icon: "earth",
-      navigateTo: "HomeScreen",
-    },
+    { id: "4", title: "Terms", icon: "filetext1", navigateTo: "HomeScreen" },
+    { id: "5", title: "Earth", icon: "earth", navigateTo: "HomeScreen" },
   ];
 
   const sections = [
     {
       id: "1",
-      title: "Green Investment",
+      title: "Green                  Investment",
       icon: require("../assets/images/homeScreen/green_investment.png"),
       navigateTo: "GreenInvestmentScreen",
     },
     {
       id: "2",
-      title: "Earth     Events",
+      title: "Earth                                       Events",
       icon: require("../assets/images/homeScreen/earth_event.png"),
       navigateTo: "EventScreen",
     },
     {
       id: "3",
-      title: "Eco     Product",
+      title: "Eco                                    Product",
       icon: require("../assets/images/homeScreen/eco_product.png"),
       navigateTo: "ProductListScreen",
     },
     {
       id: "4",
-      title: "Weather Alerts",
+      title: "Weather                            Alerts",
       icon: require("../assets/images/homeScreen/weather.png"),
       navigateTo: "WhetherScreen",
     },
@@ -121,10 +120,7 @@ const HomeScreen = ({ navigation }) => {
         className="bg-white p-1 rounded-full shadow"
         key={item.id}
         onPress={() => navigation.navigate(item.navigateTo)}
-        style={{
-          borderWidth: 5,
-          borderColor: "#1D78C3",
-        }}
+        style={{ borderWidth: 5, borderColor: "#1D78C3" }}
       >
         <View
           style={{
@@ -138,7 +134,7 @@ const HomeScreen = ({ navigation }) => {
           <Icon name={item.icon} size={30} />
         </View>
       </TouchableOpacity>
-      <Text className="text-center text-xs font-mono mt-2">{item.title}</Text>
+      <Text className="text-center text-xs mt-2">{item.title}</Text>
     </View>
   );
 
@@ -158,7 +154,12 @@ const HomeScreen = ({ navigation }) => {
         }}
         resizeMode="contain"
       />
-      <Text className="text-center text-sm text-[#1D78C3] font-semibold">
+      <Text
+        className="text-center text-sm text-[#1D78C3] font-semibold"
+        style={{ width: "100%", maxWidth: screenWidth / 2 - itemPadding * 2 }}
+        numberOfLines={2} 
+        ellipsizeMode="tail"
+      >
         {item.title}
       </Text>
     </TouchableOpacity>
@@ -175,7 +176,6 @@ const HomeScreen = ({ navigation }) => {
         <Text className="text-lg font-semibold ml-4">{item.name}</Text>
       </View>
       <Text className="mt-2 text-gray-600">{item.feedback}</Text>
-      {/* Star Rating */}
       <View className="absolute bottom-2 right-2 flex-row items-center">
         <Text className="text-yellow-500 mr-1">{item.rating}</Text>
         <Icon name="star" size={16} color="#FFD700" />
@@ -183,42 +183,80 @@ const HomeScreen = ({ navigation }) => {
     </View>
   );
 
+  const listHeader = () => (
+    <>
+      <Header
+        title="Welcome to Earth Vibe"
+        image={require("../assets/images/EarthVibeLogo.png")}
+      />
+      <View className="mt-4">
+        <FlatList
+          horizontal
+          data={horizontalSections}
+          renderItem={({ item }) => renderHorizontalItem(item)}
+          keyExtractor={(item) => item.id}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: 16 }}
+        />
+      </View>
+      <View className="mt-4 px-3">
+        <Text className="text-xl font-bold text-[#1D78C3] mb-2">
+          Categories
+        </Text>
+
+        <View
+          style={{
+            borderBottomWidth: 2, 
+            borderBottomColor: "gray",
+            marginHorizontal: 0, 
+            marginBottom: 13, 
+          }}
+        />
+      </View>
+    </>
+  );
+
+  const listFooter = () => (
+    <View className="mt-4">
+      <Text className="text-xl font-bold text-[#1D78C3] mb-2 px-3">
+        What People Say
+      </Text>
+
+      <View
+        style={{
+          borderBottomWidth: 2,
+          borderBottomColor: "gray",
+          marginHorizontal: 16,
+          marginBottom: 13,
+        }}
+      />
+
+      <FlatList
+        data={testimonials}
+        renderItem={renderTestimonial}
+        keyExtractor={(item) => item.id}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 20 }}
+      />
+    </View>
+  );
+
   return (
     <>
-    <StatusBar barStyle="light-content" backgroundColor="#1D78C3" />
-    <SafeAreaView className="flex-1 bg-gray-100">
-      <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-        <Header title="Welcome to Earth Vibe" image={require("../assets/images/EarthVibeLogo.png")}/>
-        <View className="mt-4">
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View className="flex-row px-4">
-              {horizontalSections.map((item) => renderHorizontalItem(item))}
-            </View>
-          </ScrollView>
-        </View>
-        <View className="mt-8 px-4">
-          <FlatList
-            data={sections}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            numColumns={2}
-            columnWrapperStyle={{ justifyContent: "space-between" }}
-            contentContainerStyle={{ paddingBottom: 20 }}
-          />
-        </View>
-        <View className="mt-8 px-4">
-          <Text className="text-2xl font-bold text-[#1D78C3] mb-4">
-            What People Say
-          </Text>
-          <FlatList
-            data={testimonials}
-            renderItem={renderTestimonial}
-            keyExtractor={(item) => item.id}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <StatusBar barStyle="light-content" backgroundColor="#1D78C3" />
+      <SafeAreaView className="flex-1 bg-gray-100">
+        <FlatList
+          data={sections}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          columnWrapperStyle={{ justifyContent: "space-between" }}
+          ListHeaderComponent={listHeader}
+          ListFooterComponent={listFooter}
+          contentContainerStyle={{ paddingBottom: 80 }}
+        />
+      </SafeAreaView>
+     
     </>
   );
 };

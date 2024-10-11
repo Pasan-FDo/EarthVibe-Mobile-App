@@ -131,7 +131,7 @@ export default ProductListScreen = ({navigation}) => {
           <Icon name={item.icon} size={30} color='#fff' />
         </View>
       </TouchableOpacity>
-      <Text className="text-center text-xs font-mono mt-2">{item.name}</Text>
+      <Text className="text-center text-xs mt-2">{item.name}</Text>
     </View>
   );
 
