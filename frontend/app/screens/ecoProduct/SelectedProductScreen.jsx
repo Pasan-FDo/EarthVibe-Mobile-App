@@ -41,6 +41,18 @@ export default SelectedProductScreen = ({ navigation }) => {
     setModalVisible(true); // Show the modal when "Buy Now" is clicked
   };
 
+  const [quantity, setQuantity] = useState(1); // State to manage item quantity
+
+  const incrementQuantity = () => {
+    setQuantity(prevQuantity => prevQuantity + 1);
+  };
+
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(prevQuantity => prevQuantity - 1);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header title="Eco brush set" image={require('../../assets/images/profile.png')}/>
@@ -83,7 +95,16 @@ export default SelectedProductScreen = ({ navigation }) => {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Purchase Confirmation</Text>
             <Text>Are you sure you want to buy {ecoBrushSet.name} for {ecoBrushSet.price}?</Text>
+            <Text style={styles.quantityText}>Quantity: {quantity}</Text>
 
+<View style={styles.quantityControl}>
+  <TouchableOpacity onPress={decrementQuantity} style={styles.quantityButton}>
+    <Text style={styles.quantityButtonText}>-</Text>
+  </TouchableOpacity>
+  <TouchableOpacity onPress={incrementQuantity} style={styles.quantityButton}>
+    <Text style={styles.quantityButtonText}>+</Text>
+  </TouchableOpacity>
+</View>
             <View style={styles.modalButtonContainer}>
               <TouchableOpacity
                 style={styles.modalButton}
@@ -95,7 +116,7 @@ export default SelectedProductScreen = ({ navigation }) => {
                 style={[styles.modalButton, styles.confirmButton]}
                 onPress={() => {
                   setModalVisible(false);
-                  Alert.alert('Purchase Successful', 'Thank you for your purchase!');
+                  // Alert.alert('Purchase Successful', 'Thank you for your purchase!');
                   navigation.navigate('PaymentScreen');
 
                 }}
@@ -217,6 +238,28 @@ const styles = StyleSheet.create({
   },
   headerIcon: {
     marginLeft: 20,
+  },
+  quantityText: {
+    marginVertical: 10,
+    fontSize: 16,
+  },
+  quantityControl: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  quantityButton: {
+    borderWidth: 1,
+    borderColor: '#007BFF',
+    borderRadius: 5,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  quantityButtonText: {
+    fontSize: 20,
+    color: '#007BFF',
   },
 });
 
