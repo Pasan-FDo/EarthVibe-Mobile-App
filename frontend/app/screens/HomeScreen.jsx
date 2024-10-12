@@ -75,7 +75,7 @@ const HomeScreen = ({ navigation }) => {
       id: "4",
       title: "Weather                            Alerts",
       icon: require("../assets/images/homeScreen/weather.png"),
-      navigateTo: "WhetherScreen",
+      navigateTo: "ClimateNetworkScreen",
     },
   ];
 
