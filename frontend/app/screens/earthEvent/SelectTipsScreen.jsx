@@ -1,29 +1,63 @@
 import React, { useState } from 'react';
 import { View, Text, Image, SafeAreaView, ScrollView, TouchableOpacity, Dimensions, Share } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
+import { useRoute } from '@react-navigation/native'; 
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Header from '../../components/Header';
 import NavigationBar from '../../components/NavigationBar';
+import { firebase } from '../../../config';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window'); // Get screen width and height
 
-const SelectTipsScreen = ({ route }) => {
-    const { item } = route.params;
-    const [activeIndex, setActiveIndex] = useState(0);
+const SelectTipsScreen = ({ navigation }) => {
+  const [investmentData, setInvestmentData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    const images = [
-        require('../../assets/images/greenInvestment/greenInvest.png'),  // Add more images if you have
-        require('../../assets/images/greenInvestment/greenInvest.png'),require('../../assets/images/greenInvestment/greenInvest.png'),
-        require('../../assets/images/greenInvestment/greenInvest.png'),
-        require('../../assets/images/greenInvestment/greenInvest.png'),
-        require('../../assets/images/greenInvestment/greenInvest.png'),
-    ];
-    const handleSnapToItem = (index) => {
-        setActiveIndex(index); // Update active index when a new slide is displayed
+  const route = useRoute();
+  const { _id } = route.params;
+
+  useEffect(() => {
+    const fetchInvestmentData = async () => {
+        try {
+            const docRef = firebase.firestore().collection('Tips').doc(_id);
+            const doc = await docRef.get();
+            if (doc.exists) {
+                setInvestmentData({ id: doc.id, ...doc.data() });
+                console.log('Investment Data:', { id: doc.id, ...doc.data() });
+            } else {
+                console.log('No such document!');
+                Alert.alert('Error', 'Tips data not found.');
+            }
+        } catch (error) {
+            console.error('Error fetching investment data:', error);
+            Alert.alert('Error', 'Failed to fetch tips data.');
+        } finally {
+            setLoading(false);
+        }
     };
 
+    fetchInvestmentData();
+}, [_id]);
+
+const images = investmentData?.pictures || [];
+
+if (loading) {
+    return (
+        <SafeAreaView style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#1D78C3" />
+        </SafeAreaView>
+    );
+}
+
+if (!investmentData) {
+    return (
+        <SafeAreaView style={styles.loadingContainer}>
+            <Text style={styles.errorText}>Investment data not available.</Text>
+        </SafeAreaView>
+    );
+}
     // Share handler function
     const onShare = async () => {
         try {
@@ -75,28 +109,20 @@ const SelectTipsScreen = ({ route }) => {
                     height={screenWidth * 0.55} // Slightly less height for a sleeker look
                     style={{ borderRadius: 15 }}
                     data={images}
+                    autoPlay
+                    loop
+                    autoPlayInterval={3000}
                     renderItem={({ item }) => (
-                        <View style={{
-                            shadowColor: '#000',
-                            shadowOffset: { width: 0, height: 5 },
-                            shadowOpacity: 0.15,
-                            shadowRadius: 5,
-                            elevation: 10,
-                            borderRadius: 15,
-                        }}>
-                            <Image
-                                source={item}
-                                style={{
-                                    width: '100%',
-                                    height: screenWidth * 0.55, // Same height as the carousel container
-                                    borderRadius: 15,
-                                    resizeMode: 'cover', // Ensures image fits well within bounds
-                                }}
-                            />
-                        </View>
-                    )}
+                      <View style={styles.carouselItem}>
+                          <Image 
+                              source={{ uri: item }} 
+                              style={styles.carouselImage} 
+                              resizeMode="cover" 
+                          />
+                      </View>
+                  )}
                     onSnapToItem={handleSnapToItem} // Track active slide index
-                    loop={true} // Loop the carousel for continuous scrolling
+                   
                 />
 
                 {/* Dots Pagination */}
@@ -139,7 +165,7 @@ const SelectTipsScreen = ({ route }) => {
   >
     {/* Title */}
     <Text style={{ fontSize: screenWidth * 0.06, fontWeight: 'bold' }}>
-      {item.title}
+      {investmentData.title}
     </Text>
 
     {/* Icons: Share, Like, Dislike */}
@@ -161,7 +187,7 @@ const SelectTipsScreen = ({ route }) => {
       marginBottom: screenHeight * 0.02, // Space after description
     }}
   >
-    {item.description}
+    {investmentData.description}
   </Text>
   <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
       {/* Like Button */}

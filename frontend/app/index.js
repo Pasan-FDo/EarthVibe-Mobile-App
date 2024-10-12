@@ -70,32 +70,32 @@ const Index = () => {
         <Stack.Screen
           name="EventFormScreen"
           component={EventFormScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, navigationBarHidden: true, }}
         />
         <Stack.Screen
           name="EventPostScreen"
           component={EventPostScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, navigationBarHidden: true, }}
         />
         <Stack.Screen
           name="EventScreen"
           component={EventScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, navigationBarHidden: true, }}
         />
         <Stack.Screen
           name="SelectEventScreen"
           component={SelectEventScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, navigationBarHidden: true, }}
         />
         <Stack.Screen
           name="SelectTipsScreen"
           component={SelectTipsScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, navigationBarHidden: true, }}
         />
         <Stack.Screen
           name="TipsFormScreen"
           component={TipsFormScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, navigationBarHidden: true, }}
         />
         <Stack.Screen
           name="TipsListScreen"
@@ -105,7 +105,7 @@ const Index = () => {
         <Stack.Screen
           name="LocationDetailsScreen"
           component={LocationDetailsScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, navigationBarHidden: true, }}
         />
         <Stack.Screen
           name="GreenInvestmentScreen"
