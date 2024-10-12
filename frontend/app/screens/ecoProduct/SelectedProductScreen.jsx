@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Header from '../../components/Header';
+import NavigationBar from '../../components/NavigationBar';
 
 export default SelectedProductScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
@@ -95,7 +96,7 @@ export default SelectedProductScreen = ({ navigation }) => {
                 onPress={() => {
                   setModalVisible(false);
                   Alert.alert('Purchase Successful', 'Thank you for your purchase!');
-                  navigation.navigate('InvoiceScreen');
+                  navigation.navigate('PaymentScreen');
 
                 }}
               >
@@ -105,6 +106,9 @@ export default SelectedProductScreen = ({ navigation }) => {
           </View>
         </View>
       </Modal>
+      <View className="absolute bottom-0 left-0 right-0">
+                <NavigationBar />
+            </View>
     </View>
   );
 };

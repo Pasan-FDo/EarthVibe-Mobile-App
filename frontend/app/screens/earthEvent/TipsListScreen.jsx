@@ -49,7 +49,7 @@ const TipsListScreen = ({navigation}) => {
     return (
         <SafeAreaView className="flex-1">
             <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-                <Header title="Event list" image={require('../../assets/images/profile.png')}/>
+                <Header title="Tips list" image={require('../../assets/images/profile.png')}/>
                 <View className="mt-8 px-4">
                     {DataArray.map((item) => (
                         <EventPostCard key={item._id} data={item} />

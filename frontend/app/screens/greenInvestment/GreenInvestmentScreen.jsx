@@ -6,16 +6,17 @@ import GreenInvetmentCard from '../../components/GreenInvetmentCard';
 import EventCard from '../../components/EventCard';
 import NavigationBar from '../../components/NavigationBar';
 import Header from '../../components/Header';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 const GreenInvestment = ({navigation}) => {
     const [investments, setInvestments] = useState([]);
     const [loading, setLoading] = useState(true);
-    const router = useRouter();
 
     // Fetching data from Firestore
     const fetchData = async () => {
         try {
             const truckRef = firebase.firestore().collection('GreenInvestment');
+            console.log(truckRef);
             const snapshot = await truckRef.get();
             const fetchedData = snapshot.docs.map(doc => ({
                 _id: doc.id, // Assign document ID as _id
@@ -40,6 +41,12 @@ const GreenInvestment = ({navigation}) => {
         <SafeAreaView className="flex-1">
             <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
                 <Header title="Green Investment" image={require('../../assets/images/profile.png')}/>
+                <View className="flex-row justify-start items-center">
+                <Text className="text-lg text-black font-semibold py-2 px-6">Recent Investment</Text>
+                <TouchableOpacity onPress={()=>navigation.navigate('InvestmentFormScreen')}>
+                        <Icon name="folder-plus" size={22} color="#1D78C3" />
+                    </TouchableOpacity>
+                </View>
                 <View className="mt-8 px-4">
                     {/* Show loading spinner while data is being fetched */}
                     {loading ? (

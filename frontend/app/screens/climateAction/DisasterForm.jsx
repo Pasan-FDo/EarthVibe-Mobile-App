@@ -3,7 +3,7 @@ import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, TextInput, Aler
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import { firebase } from '../../../config';
 import * as ImagePicker from 'expo-image-picker';
-import DateTimePicker from '@react-native-community/datetimepicker'; // Importing DateTimePicker
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const DisasterForm = ({ navigation }) => {
     const [title, setTitle] = useState('');

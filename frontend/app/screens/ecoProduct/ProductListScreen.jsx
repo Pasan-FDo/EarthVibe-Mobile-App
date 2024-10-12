@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Header from '../../components/Header';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import NavigationBar from '../../components/NavigationBar';
 
 export default ProductListScreen = ({navigation}) => {
   const users = [
@@ -221,6 +222,9 @@ export default ProductListScreen = ({navigation}) => {
           )
         }}
       />
+       <View className="absolute bottom-0 left-0 right-0">
+                <NavigationBar />
+            </View>
     </View>
   )
 }

@@ -25,6 +25,7 @@ import WhetherScreen from "../app/screens/climateAction/WhetherScreen";
 import ProductListScreen from "../app/screens/ecoProduct/ProductListScreen";
 import SelectProductScreen from "../app/screens/ecoProduct/SelectedProductScreen";
 import Invoice from "./screens/ecoProduct/Invoice";
+import PaymentScreen from './screens/ecoProduct/PaymentScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -99,7 +100,7 @@ const Index = () => {
         <Stack.Screen
           name="TipsListScreen"
           component={TipsListScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false,navigationBarHidden: true, }}
         />
         <Stack.Screen
           name="LocationDetailsScreen"
@@ -109,7 +110,7 @@ const Index = () => {
         <Stack.Screen
           name="GreenInvestmentScreen"
           component={GreenInvestmentScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false ,navigationBarHidden: true,}}
         />
         <Stack.Screen
           name="InvestmentFormScreen"
@@ -119,7 +120,7 @@ const Index = () => {
         <Stack.Screen
           name="SelectGreenInvestmentScreen"
           component={SelectGreenInvestmentScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false ,  navigationBarHidden: true,}}
         />
         <Stack.Screen
           name="InvestmentListScreen"
@@ -149,17 +150,22 @@ const Index = () => {
         <Stack.Screen
           name="ProductListScreen"
           component={ProductListScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, navigationBarHidden: true, }}
         />
         <Stack.Screen
           name="SelectProductScreen"
           component={SelectProductScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false,navigationBarHidden: true, }}
         />
         <Stack.Screen
           name="InvoiceScreen"
           component={Invoice}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, navigationBarHidden: true, }}
+        />
+          <Stack.Screen
+          name="PaymentScreen"
+          component={PaymentScreen}
+          options={{ headerShown: false, navigationBarHidden: true, }}
         />
       </Stack.Navigator>
     </>

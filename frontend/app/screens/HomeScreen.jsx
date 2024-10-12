@@ -19,26 +19,26 @@ const HomeScreen = ({ navigation }) => {
   const numColumns = 2;
   const itemPadding = 16;
   const itemWidth = screenWidth / numColumns - itemPadding * 2;
-  useEffect(() => {
-    const backAction = () => {
-      Alert.alert('Hold on!', 'Are you sure you want to go back?', [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel',
-        },
-        {text: 'YES', onPress: () => BackHandler.exitApp()},
-      ]);
-      return true;
-    };
+  // useEffect(() => {
+  //   const backAction = () => {
+  //     Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+  //       {
+  //         text: 'Cancel',
+  //         onPress: () => null,
+  //         style: 'cancel',
+  //       },
+  //       {text: 'YES', onPress: () => BackHandler.exitApp()},
+  //     ]);
+  //     return true;
+  //   };
 
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
+  //   const backHandler = BackHandler.addEventListener(
+  //     'hardwareBackPress',
+  //     backAction,
+  //   );
 
-    return () => backHandler.remove();
-  }, []);
+  //   return () => backHandler.remove();
+  // }, []);
   const horizontalSections = [
     { id: "1", title: "About", icon: "appstore1", navigateTo: "HomeScreen" },
     { id: "2", title: "Settings", icon: "setting", navigateTo: "HomeScreen" },

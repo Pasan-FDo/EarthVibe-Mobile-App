@@ -17,7 +17,7 @@ const EventCard = ({ data }) => {
         <View className="flex justify-center items-center">
                 <Image
                     className="w-full h-40 rounded-t-[10px] mx-0 my-0" // Remove padding and margin
-                    source={data.image}
+                    source={{ uri: data?.pictures[0] }}
                     resizeMode="cover"
                 />
             </View>
